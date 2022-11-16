@@ -68,22 +68,32 @@ def getattractions():
     # 連接資料庫
     connection_object = connection_pool.get_connection()
     cursor = connection_object.cursor(dictionary=True)
-    # 判斷keyword
+
+    # 判斷keyword，keyword=None，代表顯示所有資料
     if keyword == "None":
+        # 找出所有項目總和
+        query1 = "SELECT count(*) FROM attraction;"
+        cursor.execute(query1)
+        record1 = cursor.fetchone()
+        all_count = record1["count(*)"]
+        # 從第幾比開始查找12比並顯示
         query = "select * from attraction ORDER BY id LIMIT %s, 12;"
         cursor.execute(query, (start_num,))
-        record = cursor.fetchall()
+        record = cursor.fetchall()  # 每次查詢出來只會有12筆
         result["data"] = record
-        cursor.close()
-        connection_object.close()
         count = (len(record))
+        connection_object.close()
+        cursor.close()
         if count == 0:
             return jsonify({"erro": True, "message": "找不到任何訊息，請重新輸入關鍵字或頁數"}), 500
         else:
+            # 假如頁數4(start_num=48)+12=60大於all_count=58，nextPage=null
+            if start_num+12 > all_count:
+                result["nextPage"] = "null"
             for i in range(count):
                 images = record[i]["images"].split(",")
                 record[i]["images"] = images  # 將image分開變成列表回傳
-            return jsonify(result), 200
+                return jsonify(result), 200
     else:
         # 完全比對＆模糊比對
         query = "select * from attraction where category LIKE %s OR name LIKE %s ORDER BY id LIMIT %s, 12;"
@@ -93,13 +103,16 @@ def getattractions():
         cursor.close()
         connection_object.close()
         count = (len(record))
+        print(count)
         if count == 0:
             return jsonify({"erro": True, "message": "找不到任何訊息，請重新輸入關鍵字或頁數"}), 500
         else:
+            if start_num+12 > count:
+                result["nextPage"] = "null"
             for i in range(count):
                 images = record[i]["images"].split(",")
                 record[i]["images"] = images  # 將image分開變成列表回傳
-            return jsonify(result), 200
+                return jsonify(result), 200
 
 
 @ app.route("/api/attraction/<attractionId>", methods=["GET"])  # 根據景點編號取得景點資料
