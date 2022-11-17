@@ -93,7 +93,7 @@ def getattractions():
             for i in range(count):
                 images = record[i]["images"].split(",")
                 record[i]["images"] = images  # 將image分開變成列表回傳
-                return jsonify(result), 200
+            return jsonify(result), 200
     else:
         # 完全比對＆模糊比對
         query = "select * from attraction where category LIKE %s OR name LIKE %s ORDER BY id LIMIT %s, 12;"
@@ -112,7 +112,7 @@ def getattractions():
             for i in range(count):
                 images = record[i]["images"].split(",")
                 record[i]["images"] = images  # 將image分開變成列表回傳
-                return jsonify(result), 200
+            return jsonify(result), 200
 
 
 @ app.route("/api/attraction/<attractionId>", methods=["GET"])  # 根據景點編號取得景點資料
