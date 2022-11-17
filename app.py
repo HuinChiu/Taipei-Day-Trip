@@ -89,7 +89,7 @@ def getattractions():
         else:
             # 假如頁數4(start_num=48)+12=60大於all_count=58，nextPage=null
             if start_num+12 > all_count:
-                result["nextPage"] = "null"
+                result["nextPage"] = None
             for i in range(count):
                 images = record[i]["images"].split(",")
                 record[i]["images"] = images  # 將image分開變成列表回傳
@@ -108,7 +108,7 @@ def getattractions():
             return jsonify({"erro": True, "message": "找不到任何訊息，請重新輸入關鍵字或頁數"}), 500
         else:
             if start_num+12 > count:
-                result["nextPage"] = "null"
+                result["nextPage"] = None
             for i in range(count):
                 images = record[i]["images"].split(",")
                 record[i]["images"] = images  # 將image分開變成列表回傳
