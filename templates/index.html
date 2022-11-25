@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../status/style.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
@@ -13,34 +13,59 @@
 </head>
 
 <body>
-    <nav>
-        <div class="title">台北一日遊</div>
-        <div class="menu">
-            <div class="item">預定行程</div>
-            <div class="item">登入/註冊</div>
-        </div>
-    </nav>
+    <div class="fix">
+        <nav class="navigation">
+            <div class="title">台北一日遊</div>
+            <div class="menu">
+                <div class="item">預定行程</div>
+                <div class="item">登入/註冊</div>
+            </div>
+        </nav>
+    </div>
     <header>
-        <div>
-            <img src="../status/images/welcome image.png" alt="welcome">
-
-        </div>
-        <div>
-            <div>輕鬆享受台北一日悠閒</div>
+        <div class="header">
+            <div class="header-item">輕鬆享受台北一日悠閒</div>
             <div>探索探索每個角落，體驗城市的深度旅遊行程</div>
-            <input type="text">
-            <button><img src="../status/images/icon_search.png" alt=""></button>
+            <div class="search_bar">
+                <input class="header_search" id="header_search" type="text" placeholder="輸入景點名稱查詢">
+                <button class="header_btn"><img src="{{url_for('static',filename='images/icon_search.png')}}"
+                        alt=""></button>
+                <div class="category">
+                    <!-- <div class="cat-item">哈 囉</div>
+                            <div class="cat-item">哈 囉</div>
+                            <div class="cat-item">哈 囉</div>
+                            <div class="cat-item">哈 囉</div>
+                            <div class="cat-item">哈 囉</div>
+                            <div class="cat-item">哈 囉</div>
+                            <div class="cat-item">哈 囉</div>
+                            <div class="cat-item">哈 囉</div>
+                            <div class="cat-item">哈 囉</div>
+                            <div class="cat-item">哈 囉</div>
+                            <div class="cat-item">哈 囉</div>
+                            <div class="cat-item">哈 囉</div> -->
+                </div>
+            </div>
         </div>
 
     </header>
+    <div class="erro_msg">未找到相關景點</div>
+    <main>
+        <!-- <div class="box">
+                <div class="item">
+                    <img class="item-img" src="{{url_for('static',filename='images/IMG_0065.JPG')}}" alt="">
+                    <div class="item-title">title</div>
+                </div>
+                <div class="item-descrip">
+                    <div class="item-mrt">忠孝復興</div>
+                    <div class="item-category">公共藝術</div>
+                </div>
+            </div> -->
+    </main>
 
-    <section>
-
-    </section>
     <footer>
-
+        <div class="footer-item">COPYRIGHT © 2021 台北一日遊</div>
     </footer>
-    <script src="index.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='pratice-js.js')}}"></script>
 </body>
 
 </html>
