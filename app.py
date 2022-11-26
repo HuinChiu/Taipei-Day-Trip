@@ -1,5 +1,4 @@
 from flask import *
-from flask_cors import CORS
 from mysql.connector import pooling
 import ssl
 import os
@@ -14,7 +13,6 @@ app.config["JSON_AS_ASCII"] = False
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['JSON_SORT_KEYS'] = False
 
-CORS(app)
 
 # 使用.env隱藏私密訊息
 load_dotenv()

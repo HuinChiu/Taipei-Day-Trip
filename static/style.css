@@ -74,6 +74,10 @@ header {
     font-weight: 700;
 }
 
+.header-item2 {
+    font-weight: 700;
+}
+
 .search_bar {
     display: flex;
     position: relative;
@@ -99,6 +103,7 @@ header {
     height: 46px;
     width: 60px;
     border-radius: 0px 5px 5px 0px;
+    padding: 8px 15px;
 }
 
 .category {
@@ -120,6 +125,8 @@ header {
 .cat-item {
     padding: 10px 15px;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
 }
 
 .cat-item:hover {
@@ -225,12 +232,30 @@ main {
         grid-template-columns: 150px auto;
     }
 
+    .header {
+        display: block;
+        width: 320px;
+    }
+
+    .header-item {
+        margin-bottom: 15px;
+    }
+
+    .header-item2 {
+        width: 3ㄢ0px;
+        height: 22px;
+    }
+
     .header_search {
-        width: 290px;
+        width: 200px;
+    }
+
+    .search_bar {
+        margin-top: 25px;
     }
 
     .category {
-        width: 320px;
+        width: 290px;
     }
 
     .title {
