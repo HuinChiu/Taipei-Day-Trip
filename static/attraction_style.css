@@ -36,9 +36,7 @@ body {
 }
 
 .menu {
-    display: grid;
-    gap: 20px;
-    grid-auto-flow: column;
+    display: flex;
     justify-self: end;
     margin: 20px 0px;
 }
@@ -332,6 +330,9 @@ footer {
         grid-template-columns: 150px auto;
     }
 
+    .item {
+        margin-left: 10px;
+    }
 
     .img_box {
         width: 100%;
