@@ -27,9 +27,9 @@ async function callback() {
     } else {
         let url = ""
         if (search.value == "") {
-            url = `http://3.113.79.51:3000/api/attractions?page=${nextPage}`
+            url = `/api/attractions?page=${nextPage}`
         } else {
-            url = `http://3.113.79.51:3000/api/attractions?page=${nextPage}&keyword=${header_search}`
+            url = `/api/attractions?page=${nextPage}&keyword=${header_search}`
         }
         console.log(url)
         const response = await fetch(url)
@@ -47,7 +47,11 @@ async function callback() {
                 let mrt = data[i]["mrt"];
                 let category = data[i]["category"];
                 let images = data[i]["images"][0];
+                let id = data[i]["id"];
                 let main = document.querySelector("main");
+                let aTag = document.createElement("a");
+                aTag.className = "a-tag";
+                aTag.href = `/attraction/${id}`
                 let boxDiv = document.createElement("div");
                 boxDiv.className = "box";
                 let itemDiv = document.createElement("div");
@@ -66,7 +70,8 @@ async function callback() {
                 let itemCategory = document.createElement("div");
                 itemCategory.className = "item-category";
                 itemCategory.innerText = category;
-                main.appendChild(boxDiv);
+                main.appendChild(aTag);
+                aTag.appendChild(boxDiv);
                 boxDiv.appendChild(itemDiv);
                 boxDiv.appendChild(itemDescrip);
                 itemDiv.appendChild(itemImg);
@@ -107,7 +112,8 @@ search.addEventListener("click", function () {
     let categoryDiv = document.querySelector(".category");
     categoryDiv.innerHTML = "";
     document.querySelector(".category").style.display = "grid";
-    fetch("http://3.113.79.51:3000/api/categories").then(function (resp) {
+
+    fetch("/api/categories").then(function (resp) {
         return resp.json();
     }).then((function (result) {
         let data = result["data"]

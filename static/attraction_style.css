@@ -1,0 +1,351 @@
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    margin: 0px;
+    font-size: 1rem;
+    color: #666666;
+}
+
+.image {
+    margin: 0px;
+}
+
+.fix {
+    width: 100%;
+    position: sticky;
+    background-color: #FFFFFF;
+    z-index: 2;
+    top: 0;
+    box-shadow: 0px 1px 5px #E8E8E8;
+}
+
+.navigation {
+    width: 1200px;
+    align-items: center;
+    display: grid;
+    grid-template-columns: 200px auto;
+    margin: auto;
+    background-color: #FFFFFF;
+
+}
+
+.title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #448899;
+    margin: 10px 0px;
+}
+
+.menu {
+    display: grid;
+    gap: 20px;
+    grid-auto-flow: column;
+    justify-self: end;
+    margin: 20px 0px;
+}
+
+.item {
+    margin: 0px 10px;
+
+}
+
+main {
+    margin: 55px auto;
+    display: flex;
+    width: 1200px;
+}
+
+
+
+.img_box {
+    /* background-image: url(https://www.travel.taipei/d_upload_ttn/sceneadmin/image/a0/b0/c0/d7/e150/f719/71eb4b56-f771-43bc-856c-2fb265a5cc6e.jpg); */
+    width: 540px;
+    height: 400px;
+    margin: 0px 15px;
+    border-radius: 5px;
+    background-size: cover;
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    transition: background-image 1.5s;
+}
+
+.radio_group {
+    bottom: 5px;
+    left: 25%;
+    right: 25%;
+    position: absolute;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.img_radio {
+    width: 12px;
+    height: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    margin: 6px;
+    appearance: none;
+
+}
+
+.img_radio:checked {
+    background-color: rgba(0, 0, 0, 0.6);
+
+}
+
+
+.time_btn:checked {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.btn_left {
+    border-radius: 50%;
+    margin-left: 10px;
+    opacity: 0.6;
+}
+
+.btn_right {
+    margin-right: 10px;
+    opacity: 0.6;
+}
+
+.order_group {
+    margin: 0px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.item_name {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.time_title {
+    margin-right: 20px;
+}
+
+.item_group {
+    margin-bottom: 20px;
+}
+
+.order_menu {
+    background-color: #E8E8E8;
+    border-radius: 5px;
+    width: 560px;
+    height: 100%;
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    padding: 15px 20px;
+}
+
+.order_title {
+    font-weight: 700;
+}
+
+.order_date {
+    font-weight: 700;
+
+}
+
+.date {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.input_date {
+    border: 0px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 0px;
+}
+
+
+
+
+.order_time {
+    font-weight: 700;
+}
+
+.time {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.order_feed {
+    font-weight: 700;
+}
+
+.time_btn {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #FFFFFF;
+    border-radius: 50%;
+    display: inline-block;
+    align-items: center;
+    appearance: none;
+    margin: 0px;
+    vertical-align: middle;
+    margin-top: -2px;
+    margin-bottom: 1px;
+
+}
+
+.time_btn:checked {
+    background-color: #448899;
+}
+
+.order_btn {
+    width: 160px;
+    background-color: #448899;
+    color: #FFFFFF;
+    border: 0px;
+    border-radius: 5px;
+    font-size: 19px;
+    padding: 10px 20px;
+}
+
+
+hr {
+    width: 1200px;
+    align-items: center;
+    border: 0px;
+    height: 1px;
+    background-color: #E8E8E8;
+}
+
+
+.option {
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+    margin: 50px auto;
+    padding: 20px;
+    line-height: 2rem;
+
+}
+
+.description {
+    margin: 0px 15px 20px 15px;
+
+}
+
+.address {
+    margin: 0px 15px 20px 15px;
+}
+
+.address_title {
+    font-weight: 700;
+}
+
+.traffic {
+    margin: 0px 15px 20px 15px;
+}
+
+.traffic_title {
+    font-weight: 700;
+}
+
+/* footer */
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+    background-color: #757575;
+}
+
+.footer-item {
+    color: #FFFFFF;
+}
+
+@media (max-width: 1200px) {
+    .navigation {
+        width: 100%;
+    }
+
+    main {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1200px) {
+
+    main {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .img_box {
+        width: 90%;
+        height: auto;
+        margin: 55px auto;
+    }
+
+    .order_group {
+        width: 90%;
+        height: auto;
+        margin: 0px auto;
+    }
+
+    .order_menu {
+        width: 90%;
+        height: auto;
+    }
+
+    .option {
+        width: 90%;
+    }
+}
+
+@media (max-width: 600px) {
+    main {
+        margin: 0px auto 55px auto;
+    }
+
+    .img_box {
+        width: 100%;
+        height: auto;
+        border-radius: 0px;
+        margin: 0px auto 20px auto;
+    }
+
+    .order_group {
+        width: 90%;
+        height: auto;
+        margin: 0px auto;
+    }
+
+    .option {
+        width: 90%;
+    }
+}
+
+@media (max-width: 360px) {
+    .navigation {
+        grid-template-columns: 150px auto;
+    }
+
+
+    .img_box {
+        width: 100%;
+        height: auto;
+        border-radius: 0px;
+    }
+
+    .order_group {
+        width: 90%;
+        height: auto;
+        margin: 0px auto;
+    }
+
+    .option {
+        width: 90%;
+    }
+}

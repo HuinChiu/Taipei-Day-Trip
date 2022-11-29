@@ -147,6 +147,11 @@ main {
 }
 
 /* box */
+.a-tag {
+    text-decoration: none;
+    color: #666666;
+}
+
 .box {
     border: 1px solid #E8E8E8;
     border-radius: 5px;
@@ -242,7 +247,7 @@ main {
     }
 
     .header-item2 {
-        width: 3ㄢ0px;
+        width: 30px;
         height: 22px;
     }
 
