@@ -9,59 +9,64 @@ body {
     margin: 0px;
 }
 
+/* nav */
 .fix {
     width: 100%;
     position: sticky;
-    background-color: #FFFFFF;
     z-index: 2;
     top: 0;
     box-shadow: 0px 1px 5px #E8E8E8;
+    display: flex;
+    justify-content: center;
+    background-color: #FFFFFF;
 }
 
 .navigation {
     width: 1200px;
-    align-items: center;
+    padding: 10px;
     display: grid;
-    grid-template-columns: 200px auto;
-    margin: auto;
-    background-color: #FFFFFF;
-
+    align-items: center;
+    /* 容器：格子們，垂直置中對齊 */
+    grid-template-columns: 160px auto;
 }
 
 .title {
     font-size: 30px;
     font-weight: 700;
     color: #448899;
-    margin: 10px 0px;
 }
 
 .menu {
-    display: flex;
+    display: grid;
+    grid-auto-flow: column;
+    /* 容器：不指定格子的狀況下，自動排列方式是什麼？ */
     justify-self: end;
-    margin: 20px 0px;
+    /* 格子：自己本身的內容水平靠右 */
 }
 
 .item {
     margin: 0px 10px;
-
 }
+
+/*nav end*/
 
 main {
-    margin: 55px auto;
     display: flex;
-    width: 1200px;
+    justify-content: center;
+    margin: 55px auto;
+    flex-wrap: wrap;
 }
 
-
-
+/* imgbox */
 .img_box {
-    /* background-image: url(https://www.travel.taipei/d_upload_ttn/sceneadmin/image/a0/b0/c0/d7/e150/f719/71eb4b56-f771-43bc-856c-2fb265a5cc6e.jpg); */
     width: 540px;
     height: 400px;
+    background-color: #448899;
     margin: 0px 15px;
     border-radius: 5px;
     background-size: cover;
-    aspect-ratio: 4 / 3;
+    background-repeat: no-repeat;
+    background-position: center;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -111,11 +116,10 @@ main {
     opacity: 0.6;
 }
 
+/* ordergroup */
 .order_group {
+    width: 600px;
     margin: 0px 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
 }
 
 .item_name {
@@ -124,59 +128,50 @@ main {
     margin-bottom: 15px;
 }
 
-.time_title {
-    margin-right: 20px;
-}
-
 .item_group {
     margin-bottom: 20px;
 }
 
+/* order_menu */
 .order_menu {
     background-color: #E8E8E8;
+    height: 300px;
     border-radius: 5px;
-    width: 560px;
-    height: 100%;
-    display: grid;
-    grid-template-rows: repeat(6, 1fr);
-    padding: 15px 20px;
 }
 
 .order_title {
+    padding: 15px 20px;
     font-weight: 700;
 }
 
-.order_date {
-    font-weight: 700;
+.order_header {
+    padding: 0px 20px 24px 20px;
+}
 
+.order_date {
+    padding: 0px 20px 15px 20px;
+    font-weight: 700;
 }
 
 .date {
     display: inline-block;
-    margin-left: 5px;
 }
 
 .input_date {
-    border: 0px;
-    border-radius: 5px;
     padding: 5px 10px;
-    margin: 0px;
 }
 
-
-
-
 .order_time {
+    padding: 0px 20px 15px 20px;
     font-weight: 700;
 }
 
 .time {
     display: inline-block;
-    margin-left: 5px;
 }
 
-.order_feed {
-    font-weight: 700;
+.time_title {
+    margin-right: 18px;
 }
 
 .time_btn {
@@ -198,63 +193,53 @@ main {
     background-color: #448899;
 }
 
+.order_feed {
+    padding: 0px 20px 15px 20px;
+    font-weight: 700;
+}
+
 .order_btn {
-    width: 160px;
+    padding: 10px 20px;
+    margin: 0px 20px 15px 20px;
     background-color: #448899;
     color: #FFFFFF;
     border: 0px;
     border-radius: 5px;
-    font-size: 19px;
-    padding: 10px 20px;
 }
-
 
 hr {
     width: 1200px;
-    align-items: center;
-    border: 0px;
-    height: 1px;
-    background-color: #E8E8E8;
+    margin: auto;
+    border: 1px solid #E8E8E8;
 }
 
 
 .option {
+    /* margin: 55px 10px 55px 20px; */
+    margin: 55px auto;
+    line-height: 2rem;
     width: 1200px;
     display: flex;
     flex-direction: column;
-    margin: 50px auto;
-    padding: 20px;
-    line-height: 2rem;
-
-}
-
-.description {
-    margin: 0px 15px 20px 15px;
-
 }
 
 .address {
-    margin: 0px 15px 20px 15px;
+    margin: 55px 0px;
 }
 
 .address_title {
     font-weight: 700;
 }
 
-.traffic {
-    margin: 0px 15px 20px 15px;
-}
-
 .traffic_title {
     font-weight: 700;
 }
 
-/* footer */
+
 footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
     height: 100px;
     background-color: #757575;
 }
@@ -264,89 +249,42 @@ footer {
 }
 
 @media (max-width: 1200px) {
-    .navigation {
-        width: 100%;
-    }
-
-    main {
-        width: 100%;
-    }
-}
-
-@media (max-width: 1200px) {
-
-    main {
-        width: 100%;
-        flex-direction: column;
-    }
-
-    .img_box {
-        width: 90%;
-        height: auto;
-        margin: 55px auto;
-    }
-
-    .order_group {
-        width: 90%;
-        height: auto;
-        margin: 0px auto;
-    }
-
-    .order_menu {
-        width: 90%;
-        height: auto;
-    }
-
     .option {
-        width: 90%;
+        width: 80%;
+    }
+
+    hr {
+        width: 80%;
     }
 }
 
 @media (max-width: 600px) {
     main {
-        margin: 0px auto 55px auto;
+        margin-top: 0px;
     }
 
     .img_box {
-        width: 100%;
-        height: auto;
-        border-radius: 0px;
-        margin: 0px auto 20px auto;
-    }
-
-    .order_group {
-        width: 90%;
-        height: auto;
-        margin: 0px auto;
-    }
-
-    .option {
-        width: 90%;
-    }
-}
-
-@media (max-width: 360px) {
-    .navigation {
-        grid-template-columns: 150px auto;
-    }
-
-    .item {
-        margin-left: 10px;
-    }
-
-    .img_box {
-        width: 100%;
-        height: auto;
+        margin: 0px 0px 20px 0px;
+        height: 360px;
+        width: 460px;
         border-radius: 0px;
     }
 
-    .order_group {
+    .option {
+        margin-top: 50px;
         width: 90%;
-        height: auto;
-        margin: 0px auto;
     }
 
-    .option {
+    .address {
+        margin: 20px 0px;
+    }
+
+    hr {
         width: 90%;
     }
+
+    .traffic {
+        margin-bottom: 55px;
+    }
+
 }
