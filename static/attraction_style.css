@@ -1,0 +1,290 @@
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    margin: 0px;
+    font-size: 1rem;
+    color: #666666;
+}
+
+.image {
+    margin: 0px;
+}
+
+/* nav */
+.fix {
+    width: 100%;
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    box-shadow: 0px 1px 5px #E8E8E8;
+    display: flex;
+    justify-content: center;
+    background-color: #FFFFFF;
+}
+
+.navigation {
+    width: 1200px;
+    padding: 10px;
+    display: grid;
+    align-items: center;
+    /* 容器：格子們，垂直置中對齊 */
+    grid-template-columns: 160px auto;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #448899;
+}
+
+.menu {
+    display: grid;
+    grid-auto-flow: column;
+    /* 容器：不指定格子的狀況下，自動排列方式是什麼？ */
+    justify-self: end;
+    /* 格子：自己本身的內容水平靠右 */
+}
+
+.item {
+    margin: 0px 10px;
+}
+
+/*nav end*/
+
+main {
+    display: flex;
+    justify-content: center;
+    margin: 55px auto;
+    flex-wrap: wrap;
+}
+
+/* imgbox */
+.img_box {
+    width: 540px;
+    height: 400px;
+    background-color: #448899;
+    margin: 0px 15px;
+    border-radius: 5px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    transition: background-image 1.5s;
+}
+
+.radio_group {
+    bottom: 5px;
+    left: 25%;
+    right: 25%;
+    position: absolute;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.img_radio {
+    width: 12px;
+    height: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    margin: 6px;
+    appearance: none;
+
+}
+
+.img_radio:checked {
+    background-color: rgba(0, 0, 0, 0.6);
+
+}
+
+
+.time_btn:checked {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.btn_left {
+    border-radius: 50%;
+    margin-left: 10px;
+    opacity: 0.6;
+}
+
+.btn_right {
+    margin-right: 10px;
+    opacity: 0.6;
+}
+
+/* ordergroup */
+.order_group {
+    width: 600px;
+    margin: 0px 15px;
+}
+
+.item_name {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.item_group {
+    margin-bottom: 20px;
+}
+
+/* order_menu */
+.order_menu {
+    background-color: #E8E8E8;
+    height: 300px;
+    border-radius: 5px;
+}
+
+.order_title {
+    padding: 15px 20px;
+    font-weight: 700;
+}
+
+.order_header {
+    padding: 0px 20px 24px 20px;
+}
+
+.order_date {
+    padding: 0px 20px 15px 20px;
+    font-weight: 700;
+}
+
+.date {
+    display: inline-block;
+}
+
+.input_date {
+    padding: 5px 10px;
+}
+
+.order_time {
+    padding: 0px 20px 15px 20px;
+    font-weight: 700;
+}
+
+.time {
+    display: inline-block;
+}
+
+.time_title {
+    margin-right: 18px;
+}
+
+.time_btn {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #FFFFFF;
+    border-radius: 50%;
+    display: inline-block;
+    align-items: center;
+    appearance: none;
+    margin: 0px;
+    vertical-align: middle;
+    margin-top: -2px;
+    margin-bottom: 1px;
+
+}
+
+.time_btn:checked {
+    background-color: #448899;
+}
+
+.order_feed {
+    padding: 0px 20px 15px 20px;
+    font-weight: 700;
+}
+
+.order_btn {
+    padding: 10px 20px;
+    margin: 0px 20px 15px 20px;
+    background-color: #448899;
+    color: #FFFFFF;
+    border: 0px;
+    border-radius: 5px;
+}
+
+hr {
+    width: 1200px;
+    margin: auto;
+    border: 1px solid #E8E8E8;
+}
+
+
+.option {
+    /* margin: 55px 10px 55px 20px; */
+    margin: 55px auto;
+    line-height: 2rem;
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.address {
+    margin: 55px 0px;
+}
+
+.address_title {
+    font-weight: 700;
+}
+
+.traffic_title {
+    font-weight: 700;
+}
+
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    background-color: #757575;
+}
+
+.footer-item {
+    color: #FFFFFF;
+}
+
+@media (max-width: 1200px) {
+    .option {
+        width: 80%;
+    }
+
+    hr {
+        width: 80%;
+    }
+}
+
+@media (max-width: 600px) {
+    main {
+        margin-top: 0px;
+    }
+
+    .img_box {
+        margin: 0px 0px 20px 0px;
+        height: 360px;
+        width: 460px;
+        border-radius: 0px;
+    }
+
+    .option {
+        margin-top: 50px;
+        width: 90%;
+    }
+
+    .address {
+        margin: 20px 0px;
+    }
+
+    hr {
+        width: 90%;
+    }
+
+    .traffic {
+        margin-bottom: 55px;
+    }
+
+}

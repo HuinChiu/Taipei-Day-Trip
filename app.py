@@ -126,7 +126,6 @@ def attraction_id(attractionId):
         cursor.execute(query, (attractionId,))
         record = cursor.fetchone()
         result["data"] = record
-        print(record)
         cursor.close()
         connection_object.close()
         if record == None:
