@@ -5,20 +5,48 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static',filename='attraction_style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='CSS/attraction_style.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
     <title>台北一日遊景點介紹</title>
 </head>
+<div class="sign">
+    <div class="signbox">
+        <div class="decorate"></div>
+        <div class="sign_item sign_title">登入會員帳號
+            <img class="close_icon" src="{{url_for('static',filename='images/icon_close.png')}}" alt="close">
+        </div>
+        <input class="sign_item email" type="text" name="eamil" id="signin_email" placeholder="輸入電子信箱">
+        <input class="sign_item name" type="text" name="password" id="signin_password" placeholder="輸入密碼">
+        <button class="sign_item sign_btn sign_btn1">登入帳戶</button>
+        <div class=" sign_item notice-1">還沒有帳戶？點此註冊</div>
+        <div class="message"></div>
+    </div>
+    <div class="signup_box">
+        <div class="decorate"></div>
+        <div class="sign_item sign_title">註冊會員帳號</div>
+        <img class="close_icon" src="{{url_for('static',filename='images/icon_close.png')}}" alt="close">
+        <input class="sign_item name" type="text" name="name" id="signup_name" placeholder="輸入姓名">
+        <input class="sign_item email" type="text" name="eamil" id="signup_email" placeholder="輸入電子信箱">
+        <input class="sign_item password" type="text" name="password" id="signup_password" placeholder="輸入密碼">
+        <button class="sign_item sign_btn sign_btn2">註冊帳戶</button>
+        <div class=" sign_item notice-2">已經有帳戶了？點此登入</div>
+        <div class="message"></div>
+    </div>
+</div>
+
 
 <body>
     <div class="fix">
         <nav class="navigation">
-            <div class="title">台北一日遊</div>
+            <a href="/">
+                <div class="title">台北一日遊</div>
+            </a>
             <div class="menu">
                 <div class="item">預定行程</div>
-                <div class="item">登入/註冊</div>
+                <div class="item signin">登入/註冊</div>
+                <div class="signout">登出</div>
             </div>
         </nav>
     </div>
@@ -83,7 +111,9 @@
     <footer>
         <div class="footer-item">COPYRIGHT © 2021 台北一日遊</div>
     </footer>
-    <script type="text/javascript" src="{{url_for('static', filename='attraction.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='JS/attraction.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='JS/signin.js')}}"></script>
+
 </body>
 
 </html>
