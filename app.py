@@ -3,6 +3,9 @@ from mysql.connector import pooling
 import ssl
 import os
 from dotenv import load_dotenv
+import jwt
+from jwt import exceptions
+from datetime import datetime, timedelta
 
 # 初始化flask
 app = Flask(
@@ -158,6 +161,106 @@ def find_categories():
         return jsonify(result), 200
     except:
         return jsonify({"erro": True, "message": "找不到任何訊息，伺服器錯誤"}), 500
+
+
+@ app.route("/api/user", methods=["POST"])
+def signup():
+    try:
+        data = request.get_json()
+        name = data["name"]
+        email = data["email"]
+        password = data["password"]
+        if name == "" or email == "" or password == "":
+            return jsonify({"erro": True, "message": "註冊失敗，資料未輸入完全，請重新輸入"})
+
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor(dictionary=True)
+        query = ("SELECT email FROM members WHERE email=%s")
+        cursor.execute(query, (email,))
+        record = cursor.fetchone()
+        if record == None:
+            query1 = (
+                "INSERT INTO members(name, email, password)VALUES(%s, %s, %s);")
+            value = (name, email, password)
+            cursor.execute(query1, value)
+            connection_object.commit()
+            cursor.close()
+            connection_object.close()
+            return jsonify({"ok": True}), 200
+        else:
+            return jsonify({"erro": True, "message": "註冊失敗，email已被註冊，請重新輸入"}), 400
+    except:
+        return jsonify({"error": "true", "message": "伺服器錯誤"}), 500
+
+
+@app.route("/api/user/auth", methods=["PUT"])
+def signin():
+    try:
+        data = request.get_json()
+        email = data["email"]
+        password = data["password"]
+        if email == "" or password == "":
+            return jsonify({"erro": True, "message": "登入失敗，資料未輸入完全，請重新輸入"})
+        member = (email, password)
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor(dictionary=True)
+        query = ("SELECT * FROM members WHERE email=%s AND password=%s")
+        cursor.execute(query, member)
+        record = cursor.fetchone()
+        cursor.close()
+        connection_object.close()
+        if record == None:
+            return jsonify({"erro": True, "message": "登入失敗，帳號或密碼錯誤"})
+        else:
+            name = record["name"]
+            email = record["email"]
+            secretkey = os.getenv("jwt_secretkey")
+            payload = {
+                "username": name,
+                "email": email,
+                "exp": (datetime.utcnow() + timedelta(days=7))
+
+            }
+            token = jwt.encode(payload, secret_key, algorithm="HS256")
+            response = make_response(jsonify({"ok": True}))
+            response.set_cookie("token", value=token,
+                                expires=datetime.utcnow() + timedelta(days=7))
+
+            return response, 200
+    except:
+        return jsonify({"error": "true", "message": "伺服器錯誤"}), 500
+
+
+@app.route("/api/user/auth", methods=["GET"])
+def getmemberdata():
+    try:
+        result = {"data": None}
+        cookie = request.cookies
+        token = cookie.get("token")
+        if token == None:
+            return jsonify({"data": None})
+        else:
+            decode = jwt.decode(token, secret_key, algorithms=["HS256"])
+            print(decode)
+            result["data"] = decode
+            print(result)
+            return jsonify(result)
+    except exceptions.ExpiredSignatureError:
+        return jsonify({"data": None})
+    except jwt.DecodeError:
+        return jsonify({"data": None})
+    except jwt.InvalidTokenError:
+        return jsonify({"data": None})
+
+
+@ app.route("/api/user/auth", methods=["DELETE"])
+def signout():
+    try:
+        response = make_response(jsonify({"ok": True}))
+        response.delete_cookie("token")
+        return response, 200
+    except:
+        return jsonify({"error": "true", "message": "伺服器錯誤"}), 500
 
 
 if __name__ == '__main__':

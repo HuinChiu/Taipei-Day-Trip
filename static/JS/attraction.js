@@ -36,14 +36,13 @@ fetch(url).then(function (resp) {
         imgRadio.addEventListener("click", function () {
             let imgBox = document.querySelector(".img_box");
             imgBox.style.backgroundImage = `url(${imgList[i]})`
-            console.log("click")
         }
         )
-
-
-
-
     }
+    //第一張圖radio checked
+    const imgRadio = document.querySelectorAll(".img_radio")
+    imgRadio[0].checked = true;
+
     //左側箭頭切換
     let index = 0
     let img_left = document.querySelector(".btn_left")
@@ -84,3 +83,20 @@ Am.addEventListener("click", function () {
     let feed = document.querySelector(".feed")
     feed.innerText = "新台幣2000元"
 })
+
+async function checkcookie() {
+    await fetch("/api/user/auth").then(function (resp) {
+        return resp.json()
+    }).then(function (data) {
+        console.log(data["data"])
+        if (data["data"] !== null) {
+            document.querySelector(".sign").style.display = "none"
+            document.querySelector(".signin").style.display = "none"
+            document.querySelector(".signout").style.display = "block"
+        }
+    })
+}
+
+
+checkcookie();
+

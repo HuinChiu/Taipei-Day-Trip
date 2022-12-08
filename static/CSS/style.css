@@ -9,6 +9,14 @@ body {
     margin: 0px;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
 .fix {
     width: 100%;
     position: sticky;
@@ -41,11 +49,25 @@ body {
     margin: 20px 0px;
 }
 
+.signin:hover {
+    cursor: pointer;
+}
+
+.signout {
+    display: none;
+    margin-left: 0px 10px;
+}
+
+.signout:hover {
+    cursor: pointer;
+}
+
+
 
 header {
     position: relative;
     height: 320px;
-    background-image: url(images/welcome\ image.png);
+    background-image: url(../images/welcomeimage.png);
     background-repeat: no-repeat;
     background-position: top;
     background-size: cover;
@@ -100,6 +122,10 @@ header {
     width: 60px;
     border-radius: 0px 5px 5px 0px;
     padding: 8px 15px;
+}
+
+.header_btn:hover {
+    cursor: pointer;
 }
 
 .category {
@@ -186,6 +212,180 @@ main {
 
 }
 
+/* signip box */
+
+.sign {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+}
+
+
+.signbox {
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFFFFF;
+    position: absolute;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 5px;
+    align-items: center;
+    display: block;
+    /* position: relative; */
+
+    /* animation 參數設定 */
+    animation-name: movedown;
+    /*動畫名稱，需與 keyframe 名稱對應*/
+    animation-duration: 1s;
+    /*動畫持續時間，單位為秒*/
+    animation-delay: 0s;
+    /*動畫延遲開始時間*/
+    animation-iteration-count: 1;
+}
+
+@keyframes movedown {
+    from {
+        top: 0;
+    }
+
+    to {
+        top: 40%;
+    }
+}
+
+
+.decorate {
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+    border-radius: 5px 5px 0px 0px;
+}
+
+
+.sign_item {
+    width: 80%;
+    border-radius: 5px;
+    margin: 0px 15px;
+    color: #757575;
+}
+
+.sign_title {
+    text-align: center;
+    font-weight: 700;
+    font-size: 24px;
+    margin-top: 15px;
+    margin-left: 32px;
+}
+
+.close_icon {
+    position: absolute;
+    right: 17px;
+    top: 27px;
+    width: 16px;
+    height: 16px;
+}
+
+.close_icon:hover {
+    cursor: pointer;
+}
+
+
+.password {
+    border: 1px solid #CCCCCC;
+    font-weight: 500;
+    padding: 15px 15px;
+    margin-top: 15px;
+}
+
+.email {
+    border: 1px solid #CCCCCC;
+    font-weight: 500;
+    padding: 15px 15px;
+    margin-top: 15px;
+}
+
+
+
+.sign_btn {
+    width: 304px;
+    background-color: #448899;
+    color: #FFFFFF;
+    border: 0px;
+    padding: 10px 15px;
+    font-size: 19px;
+    margin-top: 15px;
+}
+
+.sign_btn:hover {
+    cursor: pointer;
+}
+
+.notice-1 {
+    text-align: center;
+    margin: 15px;
+    margin-left: 32px;
+}
+
+.notice-1:hover {
+    cursor: pointer;
+}
+
+/* signup_box */
+.signup_box {
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFFFFF;
+    position: absolute;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    align-items: center;
+    display: none;
+
+    /* animation 參數設定 */
+    animation-name: movedown;
+    /*動畫名稱，需與 keyframe 名稱對應*/
+    animation-duration: 1s;
+    /*動畫持續時間，單位為秒*/
+    animation-delay: 0s;
+    /*動畫延遲開始時間*/
+    animation-iteration-count: 1;
+}
+
+.name {
+    border: 1px solid #CCCCCC;
+    font-weight: 500;
+    padding: 15px 15px;
+    margin-top: 15px;
+}
+
+.notice-2 {
+    text-align: center;
+    margin: 15px;
+    margin-left: 32px;
+}
+
+.notice-2:hover {
+    cursor: pointer;
+}
+
+.message {
+    text-align: center;
+    color: red;
+    margin: 15px;
+}
+
+
+
 @media (max-width: 1200px) {
     .navigation {
         width: 100%;
@@ -243,7 +443,7 @@ main {
     }
 
     .header-item2 {
-        width: 30px;
+        width: 320px;
         height: 22px;
     }
 

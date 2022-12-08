@@ -132,3 +132,17 @@ search.addEventListener("click", function () {
 document.addEventListener("click", function () {
     document.querySelector(".category").style.display = "none";
 }, true)
+
+async function checkcookie() {
+    await fetch("/api/user/auth").then(function (resp) {
+        return resp.json()
+    }).then(function (data) {
+        if (data["data"] !== null) {
+            document.querySelector(".sign").style.display = "none"
+            document.querySelector(".signin").style.display = "none"
+            document.querySelector(".signout").style.display = "block"
+        }
+    })
+}
+
+checkcookie();
