@@ -34,6 +34,8 @@ notice1.addEventListener("click", function () {
     console.log("click");
     document.querySelector(".signup_box").style.display = "block";
     document.querySelector(".signbox").style.display = "none";
+    message = document.querySelectorAll(".message");
+    message[0].innerText = ""
 })
 
 //點擊已經有帳戶了？更換登入帳號匡
@@ -41,6 +43,8 @@ let notice2 = document.querySelector(".notice-2");
 notice2.addEventListener("click", function () {
     document.querySelector(".signup_box").style.display = "none";
     document.querySelector(".signbox").style.display = "block";
+    message = document.querySelectorAll(".message");
+    message[1].innerText = ""
 })
 
 
@@ -53,7 +57,6 @@ function sendData() {
     const signupName = document.querySelector("#signup_name").value;
     const signupEmail = document.querySelector("#signup_email").value;
     const signupPassword = document.querySelector("#signup_password").value;
-
     let entry = { name: signupName, email: signupEmail, password: signupPassword }; //將name放入字典{name:123}
     let url = "/api/user";//api url
     fetch(url, {
