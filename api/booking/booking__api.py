@@ -34,9 +34,10 @@ booking.secret_key = secret_key
 
 @booking.route("/api/booking", methods=["GET"])  # 取得景點列表
 def get_booking_data():
-    result = {"data": {"attraction": {"id": "", "name": "",
-                                      "address": "", "image": "", }, "date": "", "time": "", "price": ""}}
+
     try:
+        result = {"data": {"attraction": {"id": "", "name": "",
+                                          "address": "", "image": "", }, "date": "", "time": "", "price": ""}}
         cookie = request.cookies
         token = cookie.get("token")
         print(token)
@@ -84,6 +85,7 @@ def create_booking_data():
         date = data["date"]
         time = data["time"]
         price = data["price"]
+        print(attraction_id, date, time, price)
         cookie = request.cookies
         token = cookie.get("token")
         if token == None:
