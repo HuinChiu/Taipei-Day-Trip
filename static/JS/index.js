@@ -34,20 +34,20 @@ async function callback() {
         console.log(url)
         const response = await fetch(url)
         const result = await response.json()
-        if (result["erro"] == true) {
+        if (result.erro == true) {
             let main = document.querySelector("main");
             let boxDiv = document.createElement("div");
-            boxDiv.innerText = result["message"]
+            boxDiv.innerText = result.message
             main.appendChild(boxDiv)
         } else {
-            nextPage = result["nextPage"]
-            let data = result["data"]
+            nextPage = result.nextPage
+            let data = result.data
             for (let i = 0; i < data.length; i++) {
-                let name = data[i]["name"];
-                let mrt = data[i]["mrt"];
-                let category = data[i]["category"];
-                let images = data[i]["images"][0];
-                let id = data[i]["id"];
+                let name = data[i].name;
+                let mrt = data[i].mrt;
+                let category = data[i].category;
+                let images = data[i].images[0];
+                let id = data[i].id;
                 let main = document.querySelector("main");
                 let aTag = document.createElement("a");
                 aTag.className = "a-tag";
@@ -116,7 +116,7 @@ search.addEventListener("click", function () {
     fetch("/api/categories").then(function (resp) {
         return resp.json();
     }).then((function (result) {
-        let data = result["data"]
+        let data = result.data
         for (let i = 0; i < data.length; i++) {
             let catItem = document.createElement("div");
             catItem.className = "cat-item";
@@ -137,7 +137,7 @@ async function checkcookie() {
     await fetch("/api/user/auth").then(function (resp) {
         return resp.json()
     }).then(function (data) {
-        if (data["data"] !== null) {
+        if (data.data !== null) {
             document.querySelector(".sign").style.display = "none"
             document.querySelector(".signin").style.display = "none"
             document.querySelector(".signout").style.display = "block"
@@ -146,3 +146,37 @@ async function checkcookie() {
 }
 
 checkcookie();
+
+async function signin() {
+    let cookie = ""
+    const email = document.querySelector("#signin_email").value;
+    const password = document.querySelector("#signin_password").value;
+    let entry = { email: email, password: password }; //將name放入字典{name:123}
+    const url = "/api/user/auth";//api url
+    try {
+        await fetch(url, {
+            method: "PUT",
+            body: JSON.stringify(entry),
+            headers: new Headers({
+                "content-Type": "application/json" //request Header
+            })
+        }).then(function (resp) {
+            return resp.json()
+        }).then(function (data) {
+            if (data.erro == true) {
+                const returnMessage = data.message
+                const message = document.querySelectorAll(".message")
+                message[0].style.display = "block"
+                message[0].innerText = returnMessage
+            } else {
+                cookie = document.cookie
+            }
+        })
+        checkcookie();
+    }
+    catch (erro) {
+        console.log("erro:" + erro)
+    }
+}
+
+

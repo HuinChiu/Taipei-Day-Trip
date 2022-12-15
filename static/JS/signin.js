@@ -2,8 +2,8 @@ async function checkcookie() {
     await fetch("/api/user/auth").then(function (resp) {
         return resp.json()
     }).then(function (data) {
-        console.log(data["data"])
-        if (data["data"] !== null) {
+        console.log(data.data)
+        if (data.data !== null) {
             document.querySelector(".sign").style.display = "none"
             document.querySelector(".signin").style.display = "none"
             document.querySelector(".signout").style.display = "block"
@@ -136,3 +136,19 @@ signout.addEventListener("click", function () {
 })
 
 
+// 預定行程
+async function checksignin() {
+    await fetch("/api/user/auth").then(function (resp) {
+        return resp.json()
+    }).then(function (data) {
+        console.log(data["data"])
+        if (data["data"] == null) {
+            document.querySelector(".sign").style.display = "block";
+        } else {
+            window.location.href = "/booking";
+        }
+    })
+}
+
+const bookingBtn = document.querySelector(".booking_btn")
+bookingBtn.addEventListener("click", checksignin)

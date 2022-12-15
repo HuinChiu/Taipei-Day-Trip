@@ -44,9 +44,11 @@
                 <div class="title">台北一日遊</div>
             </a>
             <div class="menu">
-                <div class="item">預定行程</div>
+                <div class="item booking_btn">預定行程</div>
                 <div class="item signin">登入/註冊</div>
-                <div class="signout">登出</div>
+                <a href="/">
+                    <div class="signout">登出</div>
+                </a>
             </div>
         </nav>
     </div>
@@ -80,16 +82,16 @@
                 <div class="order_time">選擇時間：
                     <div class="time">
                         <label for="time">
-                            <input class="time_btn AM" type="radio" name="time" id="AM">
-                            <span class="time_title">上半天</span>
-                            <input class="time_btn PM" type="radio" name="time" id="PM">
-                            <span class="time_title">下半天</span>
+                            <input class="time_btn AM" type="radio" name="time" id="AM" value="上半天" checked>
+                            <label class="time_title" for="AM">上半天</label>
+                            <input class="time_btn PM" type="radio" name="time" id="PM" value="下半天">
+                            <label class="time_title" for="PM">下半天</label>
                         </label>
                     </div>
 
                 </div>
                 <div class="order_feed">導覽費用：
-                    <span class="feed">新台幣2000元</span>
+                    新台幣<span class="feed">2000</span>元
                 </div>
                 <button class="order_btn">開始預約行程</button>
             </div>

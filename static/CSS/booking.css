@@ -1,0 +1,459 @@
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    margin: 0px;
+    font-size: 1rem;
+    color: #666666;
+}
+
+.image {
+    margin: 0px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+hr {
+    width: 100%;
+}
+
+span {
+    font-weight: 500;
+}
+
+input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #E8E8E8;
+}
+
+.fix {
+    width: 100%;
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    box-shadow: 0px 1px 5px #E8E8E8;
+    display: flex;
+    justify-content: center;
+    background-color: #FFFFFF;
+}
+
+.navigation {
+    width: 1200px;
+    align-items: center;
+    display: grid;
+    grid-template-columns: 200px auto;
+    margin: auto;
+    background-color: #FFFFFF;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #448899;
+    margin: 10px 0px;
+}
+
+.menu {
+    display: grid;
+    grid-auto-flow: column;
+    justify-self: end;
+    margin: 20px 0px;
+}
+
+.signin:hover {
+    cursor: pointer;
+}
+
+.signout {
+    display: none;
+    margin: 0px 10px;
+}
+
+.signout:hover {
+    cursor: pointer;
+}
+
+
+
+
+
+/* signip box */
+
+.sign {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+}
+
+
+.signbox {
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFFFFF;
+    position: absolute;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 5px;
+    align-items: center;
+    display: block;
+
+    /* animation 參數設定 */
+    animation-name: movedown;
+    /*動畫名稱，需與 keyframe 名稱對應*/
+    animation-duration: 1s;
+    /*動畫持續時間，單位為秒*/
+    animation-delay: 0s;
+    /*動畫延遲開始時間*/
+    animation-iteration-count: 1;
+}
+
+@keyframes movedown {
+    from {
+        top: 0;
+    }
+
+    to {
+        top: 40%;
+    }
+}
+
+
+.decorate {
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+    border-radius: 5px 5px 0px 0px;
+}
+
+
+.sign_item {
+    width: 80%;
+    border-radius: 5px;
+    margin: 0px 15px;
+    color: #757575;
+}
+
+.sign_title {
+    text-align: center;
+    font-weight: 700;
+    font-size: 24px;
+    margin-top: 15px;
+    margin-left: 32px;
+}
+
+.close_icon {
+    position: absolute;
+    right: 17px;
+    top: 27px;
+    width: 16px;
+    height: 16px;
+}
+
+.close_icon:hover {
+    cursor: pointer;
+}
+
+
+.password {
+    border: 1px solid #CCCCCC;
+    font-weight: 500;
+    padding: 15px 15px;
+    margin-top: 15px;
+}
+
+.email {
+    border: 1px solid #CCCCCC;
+    font-weight: 500;
+    padding: 15px 15px;
+    margin-top: 15px;
+}
+
+
+
+.sign_btn {
+    width: 304px;
+    background-color: #448899;
+    color: #FFFFFF;
+    border: 0px;
+    padding: 10px 15px;
+    font-size: 19px;
+    margin-top: 15px;
+}
+
+.sign_btn:hover {
+    cursor: pointer;
+}
+
+.notice-1 {
+    text-align: center;
+    margin: 15px;
+    margin-left: 32px;
+}
+
+.notice-1:hover {
+    cursor: pointer;
+}
+
+/* signup_box */
+.signup_box {
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFFFFF;
+    position: absolute;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    align-items: center;
+    display: none;
+
+    /* animation 參數設定 */
+    animation-name: movedown;
+    /*動畫名稱，需與 keyframe 名稱對應*/
+    animation-duration: 1s;
+    /*動畫持續時間，單位為秒*/
+    animation-delay: 0s;
+    /*動畫延遲開始時間*/
+    animation-iteration-count: 1;
+}
+
+.name {
+    border: 1px solid #CCCCCC;
+    font-weight: 500;
+    padding: 15px 15px;
+    margin-top: 15px;
+}
+
+.notice-2 {
+    text-align: center;
+    margin: 15px;
+    margin-left: 32px;
+}
+
+.notice-2:hover {
+    cursor: pointer;
+}
+
+.message {
+    text-align: center;
+    color: red;
+    margin: 15px;
+}
+
+/*booking_msg*/
+.booking_msg {
+    margin: 55px auto;
+    width: 1000px;
+}
+
+.hello {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 45px 0px 40px 0px;
+}
+
+/*main1*/
+main {
+    margin: 55px auto;
+    display: flex;
+    width: 1000px;
+    flex-direction: column;
+}
+
+.item {
+    display: flex;
+}
+
+
+.item_title_attraction {
+    font-weight: 700;
+}
+
+.item_descrip {
+    margin: 0px 25px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+}
+
+.item_title_group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete_btn {
+    position: absolute;
+    right: 0px;
+
+}
+
+.delete_btn:hover {
+    cursor: pointer;
+}
+
+.item_title {
+    color: #448899;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.item_img {
+    width: 260px;
+    height: 200px;
+    aspect-ratio: 4 / 3;
+}
+
+.item_item {
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/*main2*/
+.contact {
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.contact_item {
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.contact_msg {
+    font-weight: 700;
+}
+
+/*main3*/
+.creditcard {
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.creditcard_item {
+    margin-bottom: 20px;
+}
+
+/*final*/
+.final {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.total_price {
+    font-weight: 700;
+    margin: 0px 0px 25px 0px;
+}
+
+.order_btn {
+    font-size: 19px;
+    padding: 10px 20px;
+    color: #FFFFFF;
+    background-color: #448899;
+    border-radius: 5px;
+    border: 0px;
+}
+
+.order_btn:hover {
+    cursor: pointer;
+}
+
+/* footer */
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    /* padding-bottom: 100%; */
+    background-color: #757575;
+}
+
+.footer-item {
+    color: #FFFFFF;
+}
+
+
+@media (max-width: 1200px) {
+    .navigation {
+        width: 100%;
+    }
+
+
+    main {
+        width: 90%;
+    }
+
+    .booking_msg {
+        width: 90%;
+    }
+}
+
+@media(max-width: 600px) {
+    main {
+        flex-wrap: wrap;
+    }
+
+    .header {
+        height: 169px;
+        width: 340px;
+    }
+
+
+
+    .title {
+        margin-left: 10px;
+    }
+
+    .item {
+        flex-wrap: wrap;
+    }
+
+    .item_img {
+        width: 100%;
+        height: auto;
+    }
+
+    .item_descrip {
+        margin: 40px 0px 0px 0px;
+    }
+
+    .delete_btn {
+        bottom: 0px;
+    }
+
+    .booking_msg {
+        margin: 45px 10px 40px 10px;
+        width: 90%;
+    }
+
+    /* .footer-item {
+        padding: auto;
+    } */
+}
+
+@media (max-width: 360px) {
+
+    .navigation {
+        grid-template-columns: 150px auto;
+    }
+
+    .main {
+        width: 100%;
+    }
+
+}
