@@ -16,7 +16,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 # 登入資mysql料庫
 connection_pool = pooling.MySQLConnectionPool(
     pool_name="py_pool",
-    pool_size=10,
+    pool_size=32,
     pool_reset_session=True,
     host="localhost",          # 主機名稱
     database="taipei_day_trip",  # 資料庫名稱
@@ -34,6 +34,9 @@ booking.secret_key = secret_key
 
 @booking.route("/api/booking", methods=["GET"])  # 取得景點列表
 def get_booking_data():
+    # 連接資料庫
+    connection_object = connection_pool.get_connection()
+    cursor = connection_object.cursor(dictionary=True)
 
     try:
         result = {"data": {"attraction": {"id": "", "name": "",
@@ -47,12 +50,11 @@ def get_booking_data():
             decode = jwt.decode(token, secret_key, algorithms=["HS256"])
             print(decode)
             email = decode["email"]
-            connection_object = connection_pool.get_connection()
-            cursor = connection_object.cursor(dictionary=True)
+
             query = ("SELECT id FROM members WHERE email=%s;")
             cursor.execute(query, (email,))
             record = cursor.fetchone()
-            print(record)
+            print(record)  # 有印出{'id': 1}
             id = record["id"]
             query2 = ("SELECT attraction.id, attraction.name, attraction.address, attraction.images,date_format(orders.date,'%Y-%m-%d') , orders.time , orders.price FROM attraction INNER JOIN orders ON orders.attraction_id=attraction.id WHERE member_id=%s ORDER BY order_time DESC;")
             cursor.execute(query2, (id,))
@@ -67,9 +69,10 @@ def get_booking_data():
             result["data"]["date"] = record2["date_format(orders.date,'%Y-%m-%d')"]
             result["data"]["time"] = record2["time"]
             result["data"]["price"] = record2["price"]
-            print(result)
+            print(result)  # 有印出result
+            print(result)  # 有印出result
 
-        return jsonify(result), 200
+            return jsonify(result)
 
     except:
         return jsonify({"erro": True})
@@ -77,6 +80,8 @@ def get_booking_data():
 
 @ booking.route("/api/booking", methods=["POST"])
 def create_booking_data():
+    connection_object = connection_pool.get_connection()
+    cursor = connection_object.cursor(dictionary=True)
     try:
         data = request.get_json()
         print(data)
@@ -95,8 +100,6 @@ def create_booking_data():
             return jsonify({"erro": True, "message": "輸入資料有誤，請重新點選"}, 400)
 
         else:
-            connection_object = connection_pool.get_connection()
-            cursor = connection_object.cursor(dictionary=True)
             query = (
                 "INSERT INTO orders(member_id, attraction_id,date,time,price) VALUES ( %s, %s, %s, %s, %s);")
             cursor.execute(
@@ -111,6 +114,8 @@ def create_booking_data():
 
 @ booking.route("/api/booking", methods=["DELETE"])
 def delete_booking_data():
+    connection_object = connection_pool.get_connection()
+    cursor = connection_object.cursor(dictionary=True)
     try:
         cookie = request.cookies
         token = cookie.get("token")
@@ -123,8 +128,7 @@ def delete_booking_data():
             time = data["time"]
             price = data["price"]
             print(member_id, attraction_id, date, time, price)
-            connection_object = connection_pool.get_connection()
-            cursor = connection_object.cursor(dictionary=True)
+
             query = (
                 "DELETE FROM orders WHERE member_id=%s and attraction_id=%s and date=%s and time=%s and price=%s;")
             cursor.execute(

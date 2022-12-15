@@ -15,7 +15,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 # 登入資mysql料庫
 connection_pool = pooling.MySQLConnectionPool(
     pool_name="py_pool",
-    pool_size=5,
+    pool_size=32,
     pool_reset_session=True,
     host="localhost",          # 主機名稱
     database="taipei_day_trip",  # 資料庫名稱
@@ -23,8 +23,8 @@ connection_pool = pooling.MySQLConnectionPool(
     password=sql_password)  # 密碼
 
 
-#初始化blueprint
-attraction =Blueprint("attraction",__name__)
+# 初始化blueprint
+attraction = Blueprint("attraction", __name__)
 
 
 @attraction.route("/api/attractions", methods=["GET"])  # 取得景點列表
@@ -84,7 +84,8 @@ def getattractions():
             return jsonify(result), 200
 
 
-@ attraction.route("/api/attraction/<attractionId>", methods=["GET"])  # 根據景點編號取得景點資料
+# 根據景點編號取得景點資料
+@ attraction.route("/api/attraction/<attractionId>", methods=["GET"])
 def attraction_id(attractionId):
     try:
         result = {"data": None}
