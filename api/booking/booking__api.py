@@ -67,8 +67,6 @@ def get_booking_data():
             result["data"]["time"] = record2["time"]
             result["data"]["price"] = record2["price"]
             print(result)
-            cursor.close()
-            connection_object.close()
 
         return jsonify(result), 200
 
