@@ -29,6 +29,7 @@ async function getOrderData() {
             fetch("/api/booking").then(function (resp) {
                 return resp.json();
             }).then(function (data) {
+                console.log(data)
                 if (data.erro == true) {
                     document.querySelector("main").style.display = "none";
                     document.querySelector(".msg").style.display = "block";

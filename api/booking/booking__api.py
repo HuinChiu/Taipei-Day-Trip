@@ -39,31 +39,39 @@ def get_booking_data():
     try:
         cookie = request.cookies
         token = cookie.get("token")
+        print(token)
         if token == None:
             return jsonify({"erro": True, "message": "未登入系統，拒絕存取"}, 403)
-        decode = jwt.decode(token, secret_key, algorithms=["HS256"])
-        email = decode["email"]
-        connection_object = connection_pool.get_connection()
-        cursor = connection_object.cursor(dictionary=True)
-        query = ("SELECT id FROM members WHERE email=%s;")
-        cursor.execute(query, (email,))
-        record = cursor.fetchone()
-        id = record["id"]
-        query2 = ("SELECT attraction.id, attraction.name, attraction.address, attraction.images,date_format(orders.date,'%Y-%m-%d') , orders.time , orders.price FROM attraction INNER JOIN orders ON orders.attraction_id=attraction.id WHERE member_id=%s ORDER BY order_time DESC;")
-        cursor.execute(query2, (id,))
-        record2 = cursor.fetchone()
-        cursor.close()
-        connection_object.close()
-        image = record2["images"].split(",")[0]
-        result["data"]["attraction"]["id"] = record2["id"]
-        result["data"]["attraction"]["name"] = record2["name"]
-        result["data"]["attraction"]["address"] = record2["address"]
-        result["data"]["attraction"]["image"] = image
-        result["data"]["date"] = record2["date_format(orders.date,'%Y-%m-%d')"]
-        result["data"]["time"] = record2["time"]
-        result["data"]["price"] = record2["price"]
-        print(result)
+        else:
+            decode = jwt.decode(token, secret_key, algorithms=["HS256"])
+            print(decode)
+            email = decode["email"]
+            connection_object = connection_pool.get_connection()
+            cursor = connection_object.cursor(dictionary=True)
+            query = ("SELECT id FROM members WHERE email=%s;")
+            cursor.execute(query, (email,))
+            record = cursor.fetchone()
+            print(record)
+            id = record["id"]
+            query2 = ("SELECT attraction.id, attraction.name, attraction.address, attraction.images,date_format(orders.date,'%Y-%m-%d') , orders.time , orders.price FROM attraction INNER JOIN orders ON orders.attraction_id=attraction.id WHERE member_id=%s ORDER BY order_time DESC;")
+            cursor.execute(query2, (id,))
+            record2 = cursor.fetchone()
+            print(record2)
+            image = record2["images"].split(",")[0]
+            print(image)
+            result["data"]["attraction"]["id"] = record2["id"]
+            result["data"]["attraction"]["name"] = record2["name"]
+            result["data"]["attraction"]["address"] = record2["address"]
+            result["data"]["attraction"]["image"] = image
+            result["data"]["date"] = record2["date_format(orders.date,'%Y-%m-%d')"]
+            result["data"]["time"] = record2["time"]
+            result["data"]["price"] = record2["price"]
+            print(result)
+            cursor.close()
+            connection_object.close()
+
         return jsonify(result), 200
+
     except:
         return jsonify({"erro": True})
 

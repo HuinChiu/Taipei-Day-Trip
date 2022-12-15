@@ -151,5 +151,3 @@ async function checksignin() {
 
 const orderBtn = document.querySelector(".order_btn")
 orderBtn.addEventListener("click", checksignin)
-
-

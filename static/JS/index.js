@@ -178,5 +178,3 @@ async function signin() {
         console.log("erro:" + erro)
     }
 }
-
-
