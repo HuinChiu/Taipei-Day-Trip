@@ -323,10 +323,6 @@ main {
 }
 
 /*main2*/
-.contact {
-    font-size: 19px;
-    font-weight: 700;
-}
 
 .contact_item {
     margin-bottom: 20px;
@@ -334,6 +330,11 @@ main {
 }
 
 .contact_msg {
+    font-weight: 700;
+}
+
+.contact {
+    font-size: 19px;
     font-weight: 700;
 }
 

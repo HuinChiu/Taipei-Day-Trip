@@ -1,3 +1,4 @@
+//獲取景點資料
 let url = `/api${location.pathname}`;
 console.log(url)
 fetch(url).then(function (resp) {
@@ -37,6 +38,11 @@ fetch(url).then(function (resp) {
         }
         )
     }
+    checkcookie();
+    const orderBtn = document.querySelector(".order_btn")
+    orderBtn.addEventListener("click", checksignin)
+
+
     //第一張圖radio checked
     const imgRadio = document.querySelectorAll(".img_radio")
     imgRadio[0].checked = true;
@@ -95,7 +101,6 @@ async function checkcookie() {
         }
     })
 }
-checkcookie();
 
 // 預定行程，確認是否已登入，未登入先做登入動作，若已登入送出資料給後端fetch/api/booking
 async function checksignin() {
@@ -149,5 +154,3 @@ async function checksignin() {
     })
 }
 
-const orderBtn = document.querySelector(".order_btn")
-orderBtn.addEventListener("click", checksignin)

@@ -1,3 +1,7 @@
+document.querySelector(".msg").style.display = "none";
+checkcookie(); //確認有無登入
+getOrderData();//確認有無登入若無登入導回首頁，若點擊刪除圖案刪除此預定行程
+
 async function checkcookie() {
     await fetch("/api/user/auth").then(function (resp) {
         return resp.json()
@@ -82,15 +86,9 @@ async function getOrderData() {
 
                     }
                 }
-
-                //點擊刪除鍵刪除目前預定行程
-
             })
         }
 
     })
 
 }
-document.querySelector(".msg").style.display = "none";
-checkcookie();
-getOrderData();
