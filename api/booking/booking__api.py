@@ -100,6 +100,9 @@ def create_booking_data():
             return jsonify({"erro": True, "message": "輸入資料有誤，請重新點選"}, 400)
 
         else:
+            delete = ("DELETE FROM ORDERS WHERE member_id =%s")
+            cursor.execute(delete, (member_id,))
+            connection_object.commit()
             query = (
                 "INSERT INTO orders(member_id, attraction_id,date,time,price) VALUES ( %s, %s, %s, %s, %s);")
             cursor.execute(
