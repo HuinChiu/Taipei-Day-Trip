@@ -105,6 +105,7 @@ async function checkcookie() {
 // 預定行程，確認是否已登入，未登入先做登入動作，若已登入送出資料給後端fetch/api/booking
 const order_btn = document.querySelector(".order_btn")
 order_btn.addEventListener("click", sentOrder)
+
 async function sentOrder() {
     await fetch("/api/user/auth").then(function (resp) {
         console.log(resp)

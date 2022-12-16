@@ -50,7 +50,6 @@ def get_booking_data():
             decode = jwt.decode(token, secret_key, algorithms=["HS256"])
             print(decode)
             email = decode["email"]
-
             query = ("SELECT id FROM members WHERE email=%s;")
             cursor.execute(query, (email,))
             record = cursor.fetchone()
@@ -100,14 +99,18 @@ def create_booking_data():
             return jsonify({"erro": True, "message": "輸入資料有誤，請重新點選"}, 400)
 
         else:
-            delete = ("DELETE FROM ORDERS WHERE member_id =%s")
-            cursor.execute(delete, (member_id,))
-            connection_object.commit()
+            query1 = (
+                "UPDATE orders SET attraction_id=%s,date=%s,time=%s,price=%s WHERE member_id=%s")
             query = (
                 "INSERT INTO orders(member_id, attraction_id,date,time,price) VALUES ( %s, %s, %s, %s, %s);")
             cursor.execute(
                 query, (member_id, attraction_id, date, time, price))
             connection_object.commit()
+            print(1)
+            cursor.execute(
+                query1, (attraction_id, date, time, price, member_id))
+            connection_object.commit()
+            print(2)
             cursor.close()
             connection_object.close()
             return jsonify({"ok": True})
