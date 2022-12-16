@@ -1,15 +1,15 @@
-async function checkcookie() {
-    await fetch("/api/user/auth").then(function (resp) {
-        return resp.json()
-    }).then(function (data) {
-        console.log(data["data"])
-        if (data["data"] !== null) {
-            document.querySelector(".sign").style.display = "none"
-            document.querySelector(".signin").style.display = "none"
-            document.querySelector(".signout").style.display = "block"
-        }
-    })
-}
+//sign in
+const signInBtn = document.querySelector(".sign_btn1");
+signInBtn.addEventListener("click", signin)
+
+// signup
+const sign_btn = document.querySelector(".sign_btn2")
+sign_btn.addEventListener("click", sendData);
+
+//按下預定行程按鈕確認有無登入
+const bookingBtn = document.querySelector(".booking_btn")
+bookingBtn.addEventListener("click", checksignin)
+
 
 //點擊登入按鈕跑出輸入帳號密碼匡
 let sigin = document.querySelector(".signin")
@@ -25,8 +25,6 @@ for (let i = 0; i < closeIcon.length; i++) {
         document.querySelector(".sign").style.display = "none";
     })
 }
-let email = document.querySelector("#email");
-let password = document.querySelector("#password");
 
 //點擊還沒有帳戶？更換註冊匡
 let notice1 = document.querySelector(".notice-1");
@@ -49,10 +47,6 @@ notice2.addEventListener("click", function () {
 
 
 // signup
-const sign_btn = document.querySelector(".sign_btn2")
-sign_btn.addEventListener("click", sendData);
-
-
 function sendData() {
     const signupName = document.querySelector("#signup_name").value;
     const signupEmail = document.querySelector("#signup_email").value;
@@ -84,9 +78,6 @@ function sendData() {
 }
 
 //sign in
-const signInBtn = document.querySelector(".sign_btn1");
-signInBtn.addEventListener("click", signin)
-
 async function signin() {
     let cookie = ""
     const email = document.querySelector("#signin_email").value;
@@ -134,5 +125,30 @@ signout.addEventListener("click", function () {
     })
 
 })
-
+//確認有無token
+async function checkcookie() {
+    await fetch("/api/user/auth").then(function (resp) {
+        return resp.json()
+    }).then(function (data) {
+        console.log(data.data)
+        if (data.data !== null) {
+            document.querySelector(".sign").style.display = "none"
+            document.querySelector(".signin").style.display = "none"
+            document.querySelector(".signout").style.display = "block"
+        }
+    })
+}
+// 預定行程
+async function checksignin() {
+    await fetch("/api/user/auth").then(function (resp) {
+        return resp.json()
+    }).then(function (data) {
+        console.log(data["data"])
+        if (data["data"] == null) {
+            document.querySelector(".sign").style.display = "block";
+        } else {
+            window.location.href = "/booking";
+        }
+    })
+}
 
