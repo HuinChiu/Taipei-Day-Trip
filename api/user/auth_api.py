@@ -27,6 +27,7 @@ auth = Blueprint("auth", __name__)
 # 設定jwt的密鑰
 secret_key = os.getenv("secret_key")
 auth.secret_key = secret_key
+secretkey = os.getenv("jwt_secretkey")
 
 
 @ auth.route("/api/user", methods=["POST"])
@@ -78,16 +79,17 @@ def signin():
         if record == None:
             return jsonify({"erro": True, "message": "登入失敗，帳號或密碼錯誤"})
         else:
+            id=record["id"]
             name = record["name"]
             email = record["email"]
-            secretkey = os.getenv("jwt_secretkey")
             payload = {
+                "id":id,
                 "username": name,
                 "email": email,
                 "exp": (datetime.utcnow() + timedelta(days=7))
 
             }
-            token = jwt.encode(payload, secret_key, algorithm="HS256")
+            token = jwt.encode(payload, secretkey, algorithm="HS256")
             response = make_response(jsonify({"ok": True}))
             response.set_cookie("token", value=token,
                                 expires=datetime.utcnow() + timedelta(days=7))
@@ -106,8 +108,7 @@ def getmemberdata():
         if token == None:
             return jsonify({"data": None})
         else:
-            decode = jwt.decode(token, secret_key, algorithms=["HS256"])
-            print(decode)
+            decode = jwt.decode(token, secretkey, algorithms=["HS256"])
             user_name = decode["username"]
             email = decode["email"]
             connection_object = connection_pool.get_connection()
@@ -118,7 +119,6 @@ def getmemberdata():
             connection_object.close()
             cursor.close()
             result["data"] = record
-            print(result)
         return jsonify(result)
     except exceptions.ExpiredSignatureError:
         return jsonify({"data": None})

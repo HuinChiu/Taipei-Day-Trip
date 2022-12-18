@@ -72,7 +72,6 @@ def getattractions():
         cursor.close()
         connection_object.close()
         count = (len(record))
-        print(count)
         if count == 0:
             return jsonify({"erro": True, "message": "找不到任何訊息，請重新輸入關鍵字或頁數"}), 500
         else:

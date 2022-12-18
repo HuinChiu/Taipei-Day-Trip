@@ -30,6 +30,7 @@ booking = Blueprint("booking", __name__)
 # 設定jwt的密鑰
 secret_key = os.getenv("secret_key")
 booking.secret_key = secret_key
+secretkey = os.getenv("jwt_secretkey")
 
 
 @booking.route("/api/booking", methods=["GET"])  # 取得景點列表
@@ -43,24 +44,15 @@ def get_booking_data():
                                           "address": "", "image": "", }, "date": "", "time": "", "price": ""}}
         cookie = request.cookies
         token = cookie.get("token")
-        print(token)
         if token == None:
             return jsonify({"erro": True, "message": "未登入系統，拒絕存取"}, 403)
         else:
-            decode = jwt.decode(token, secret_key, algorithms=["HS256"])
-            print(decode)
-            email = decode["email"]
-            query = ("SELECT id FROM members WHERE email=%s;")
-            cursor.execute(query, (email,))
-            record = cursor.fetchone()
-            print(record)  # 有印出{'id': 1}
-            id = record["id"]
+            decode = jwt.decode(token, secretkey, algorithms=["HS256"])
+            id = decode["id"]
             query2 = ("SELECT attraction.id, attraction.name, attraction.address, attraction.images,date_format(orders.date,'%Y-%m-%d') , orders.time , orders.price FROM attraction INNER JOIN orders ON orders.attraction_id=attraction.id WHERE member_id=%s ORDER BY order_time DESC;")
             cursor.execute(query2, (id,))
             record2 = cursor.fetchone()
-            print(record2)
             image = record2["images"].split(",")[0]
-            print(image)
             result["data"]["attraction"]["id"] = record2["id"]
             result["data"]["attraction"]["name"] = record2["name"]
             result["data"]["attraction"]["address"] = record2["address"]
@@ -68,9 +60,6 @@ def get_booking_data():
             result["data"]["date"] = record2["date_format(orders.date,'%Y-%m-%d')"]
             result["data"]["time"] = record2["time"]
             result["data"]["price"] = record2["price"]
-            print(result)  # 有印出result
-            print(result)  # 有印出result
-
             return jsonify(result)
 
     except:
@@ -83,37 +72,47 @@ def create_booking_data():
     cursor = connection_object.cursor(dictionary=True)
     try:
         data = request.get_json()
-        print(data)
         member_id = data["member_id"]
         attraction_id = data["attractionID"]
         date = data["date"]
         time = data["time"]
         price = data["price"]
-        print(attraction_id, date, time, price)
         cookie = request.cookies
         token = cookie.get("token")
-        if token == None:
+        decode = jwt.decode(token, secretkey, algorithms=["HS256"])
+        if decode == None:
             return jsonify({"erro": True, "message": "未登入系統，拒絕存取"}, 403)
 
         elif member_id == "" or attraction_id == "" or date == "" or time == "":
             return jsonify({"erro": True, "message": "輸入資料有誤，請重新點選"}, 400)
 
         else:
-            query1 = (
-                "UPDATE orders SET attraction_id=%s,date=%s,time=%s,price=%s WHERE member_id=%s")
-            query = (
-                "INSERT INTO orders(member_id, attraction_id,date,time,price) VALUES ( %s, %s, %s, %s, %s);")
-            cursor.execute(
-                query, (member_id, attraction_id, date, time, price))
+            query =("SELECT * FROM orders WHERE member_id=%s;")
+            cursor.execute(query, (member_id,))
+            member_data=cursor.fetchone()
             connection_object.commit()
-            print(1)
-            cursor.execute(
-                query1, (attraction_id, date, time, price, member_id))
-            connection_object.commit()
-            print(2)
-            cursor.close()
-            connection_object.close()
-            return jsonify({"ok": True})
+            if member_data ==None:
+                query1 = (
+                    "INSERT INTO orders(member_id, attraction_id,date,time,price) VALUES ( %s, %s, %s, %s, %s);")
+                cursor.execute(
+                    query1, (member_id, attraction_id, date, time, price))
+                connection_object.commit()
+                cursor.close()
+                connection_object.close()
+                return jsonify({"ok": True})
+            else:
+                query2 = (
+                    "DELETE FROM orders WHERE member_id=%s;")
+                cursor.execute(
+                    query2, (member_id,))
+                connection_object.commit()
+                query3=("INSERT INTO orders(member_id, attraction_id,date,time,price) VALUES ( %s, %s, %s, %s, %s);")
+                cursor.execute(
+                    query3, (member_id, attraction_id, date, time, price))
+                connection_object.commit()
+                cursor.close()
+                connection_object.close()
+                return jsonify({"ok": True})
     except:
         return jsonify({"error": True, "message": "伺服器錯誤"}), 500
 
@@ -125,23 +124,26 @@ def delete_booking_data():
     try:
         cookie = request.cookies
         token = cookie.get("token")
-        if token != None:
+        decode = jwt.decode(token, secretkey, algorithms=["HS256"])
+        if decode == None:
+            return jsonify({"erro": True, "message": "未登入系統，拒絕存取"}, 403)
+        else:
             data = request.get_json()
-            print(data)
             member_id = data["id"]
-            attraction_id = data["attraction_id"]
-            date = data["date"]
-            time = data["time"]
-            price = data["price"]
-            print(member_id, attraction_id, date, time, price)
-
-            query = (
-                "DELETE FROM orders WHERE member_id=%s and attraction_id=%s and date=%s and time=%s and price=%s;")
-            cursor.execute(
-                query, (member_id, attraction_id, date, time, price))
-            connection_object.commit()
-            cursor.close()
-            connection_object.close()
-            return jsonify({"ok": True})
+            if decode["id"] != member_id:
+                return jsonify({"erro": True, "message": "登入者不同，拒絕存取"}, 403)
+            else:
+                attraction_id = data["attraction_id"]
+                date = data["date"]
+                time = data["time"]
+                price = data["price"]
+                query = (
+                    "DELETE FROM orders WHERE member_id=%s and attraction_id=%s and date=%s and time=%s and price=%s;")
+                cursor.execute(
+                    query, (member_id, attraction_id, date, time, price))
+                connection_object.commit()
+                cursor.close()
+                connection_object.close()
+                return jsonify({"ok": True})
     except:
         return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403

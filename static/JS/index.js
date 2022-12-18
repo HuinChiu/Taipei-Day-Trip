@@ -151,14 +151,14 @@ async function signin() {
     let cookie = ""
     const email = document.querySelector("#signin_email").value;
     const password = document.querySelector("#signin_password").value;
-    let entry = { email: email, password: password }; //將name放入字典{name:123}
-    const url = "/api/user/auth";//api url
+    let entry = { email: email, password: password };
+    const url = "/api/user/auth";
     try {
         await fetch(url, {
             method: "PUT",
             body: JSON.stringify(entry),
             headers: new Headers({
-                "content-Type": "application/json" //request Header
+                "content-Type": "application/json"
             })
         }).then(function (resp) {
             return resp.json()
