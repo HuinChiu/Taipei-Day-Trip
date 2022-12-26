@@ -66,11 +66,13 @@ def create_booking_data():
     cursor = connection_object.cursor(dictionary=True)
     try:
         data = request.get_json()
+        print(data)
         member_id = data["member_id"]
         attraction_id = data["attractionID"]
         date = data["date"]
         time = data["time"]
         price = data["price"]
+        print(member_id, attraction_id, date, time, price)
         cookie = request.cookies
         token = cookie.get("token")
         decode = jwt.decode(token, secretkey, algorithms=["HS256"])
@@ -81,11 +83,11 @@ def create_booking_data():
             return jsonify({"erro": True, "message": "輸入資料有誤，請重新點選"}, 400)
 
         else:
-            query =("SELECT * FROM booking WHERE member_id=%s;")
+            query = ("SELECT * FROM booking WHERE member_id=%s;")
             cursor.execute(query, (member_id,))
-            member_data=cursor.fetchone()
+            member_data = cursor.fetchone()
             connection_object.commit()
-            if member_data ==None:
+            if member_data == None:
                 query1 = (
                     "INSERT INTO booking(member_id, attraction_id,date,time,price) VALUES ( %s, %s, %s, %s, %s);")
                 cursor.execute(
@@ -99,7 +101,8 @@ def create_booking_data():
                 cursor.execute(
                     query2, (member_id,))
                 connection_object.commit()
-                query3=("INSERT INTO booking(member_id, attraction_id,date,time,price) VALUES ( %s, %s, %s, %s, %s);")
+                query3 = (
+                    "INSERT INTO booking(member_id, attraction_id,date,time,price) VALUES ( %s, %s, %s, %s, %s);")
                 cursor.execute(
                     query3, (member_id, attraction_id, date, time, price))
                 connection_object.commit()
