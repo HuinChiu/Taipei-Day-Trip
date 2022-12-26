@@ -12,17 +12,6 @@ sql_password = os.getenv("sql_password")
 # 安全憑證
 ssl._create_default_https_context = ssl._create_unverified_context
 
-# # 登入資mysql料庫
-# connection_pool = pooling.MySQLConnectionPool(
-#     pool_name="py_pool",
-#     pool_size=32,
-#     pool_reset_session=True,
-#     host="localhost",          # 主機名稱
-#     database="taipei_day_trip",  # 資料庫名稱
-#     user=sql_user,        # 帳號
-#     password=sql_password)  # 密碼
-
-
 # 初始化blueprint
 attraction = Blueprint("attraction", __name__)
 
@@ -37,7 +26,6 @@ def getattractions():
     # 連接資料庫
     connection_object = connection_pool.get_connection()
     cursor = connection_object.cursor(dictionary=True)
-
     # 判斷keyword，keyword=None，代表顯示所有資料
     if keyword == "None":
         # 找出所有項目總和
@@ -53,7 +41,6 @@ def getattractions():
         count = (len(record))
         cursor.close()
         connection_object.close()
-        print("attraction get close")
         if count == 0:
             return jsonify({"erro": True, "message": "找不到任何訊息，請重新輸入關鍵字或頁數"}), 500
         else:
@@ -72,7 +59,6 @@ def getattractions():
         result["data"] = record
         cursor.close()
         connection_object.close()
-        print("attraction get close")
         count = (len(record))
         if count == 0:
             return jsonify({"erro": True, "message": "找不到任何訊息，請重新輸入關鍵字或頁數"}), 500

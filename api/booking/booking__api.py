@@ -66,22 +66,18 @@ def create_booking_data():
     cursor = connection_object.cursor(dictionary=True)
     try:
         data = request.get_json()
-        print(data)
         member_id = data["member_id"]
         attraction_id = data["attractionID"]
         date = data["date"]
         time = data["time"]
         price = data["price"]
-        print(member_id, attraction_id, date, time, price)
         cookie = request.cookies
         token = cookie.get("token")
         decode = jwt.decode(token, secretkey, algorithms=["HS256"])
         if decode == None:
             return jsonify({"erro": True, "message": "未登入系統，拒絕存取"}, 403)
-
         elif member_id == "" or attraction_id == "" or date == "" or time == "":
             return jsonify({"erro": True, "message": "輸入資料有誤，請重新點選"}, 400)
-
         else:
             query = ("SELECT * FROM booking WHERE member_id=%s;")
             cursor.execute(query, (member_id,))
@@ -113,7 +109,6 @@ def create_booking_data():
     finally:
         cursor.close()
         connection_object.close()
-        print("booking POST close")
 
 
 @ booking.route("/api/booking", methods=["DELETE"])
@@ -148,4 +143,3 @@ def delete_booking_data():
     finally:
         cursor.close()
         connection_object.close()
-        print("booking DELETE close")

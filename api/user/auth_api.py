@@ -11,17 +11,6 @@ load_dotenv()
 sql_user = os.getenv("sql_user")
 sql_password = os.getenv("sql_password")
 
-# # 登入資mysql料庫
-# connection_pool = pooling.MySQLConnectionPool(
-#     pool_name="py_pool",
-#     pool_size=5,
-#     pool_reset_session=True,
-#     host="localhost",          # 主機名稱
-#     database="taipei_day_trip",  # 資料庫名稱
-#     user=sql_user,        # 帳號
-#     password=sql_password)  # 密碼
-
-
 # 初始化blueprint
 auth = Blueprint("auth", __name__)
 # 設定jwt的密鑰
@@ -39,7 +28,6 @@ def signup():
         password = data["password"]
         if name == "" or email == "" or password == "":
             return jsonify({"erro": True, "message": "註冊失敗，資料未輸入完全，請重新輸入"})
-
         connection_object = connection_pool.get_connection()
         cursor = connection_object.cursor(dictionary=True)
         query = ("SELECT email FROM members WHERE email=%s")
@@ -51,7 +39,6 @@ def signup():
             value = (name, email, password)
             cursor.execute(query1, value)
             connection_object.commit()
-
             return jsonify({"ok": True}), 200
         else:
             return jsonify({"erro": True, "message": "註冊失敗，email已被註冊，請重新輸入"}), 400
@@ -80,11 +67,11 @@ def signin():
         if record == None:
             return jsonify({"erro": True, "message": "登入失敗，帳號或密碼錯誤"})
         else:
-            id=record["id"]
+            id = record["id"]
             name = record["name"]
             email = record["email"]
             payload = {
-                "id":id,
+                "id": id,
                 "username": name,
                 "email": email,
                 "exp": (datetime.utcnow() + timedelta(days=7))
@@ -94,7 +81,6 @@ def signin():
             response = make_response(jsonify({"ok": True}))
             response.set_cookie("token", value=token,
                                 expires=datetime.utcnow() + timedelta(days=7))
-
             return response, 200
     except:
         return jsonify({"error": "true", "message": "伺服器錯誤"}), 500
@@ -107,6 +93,8 @@ def signin():
 @auth.route("/api/user/auth", methods=["GET"])
 def getmemberdata():
     try:
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor(dictionary=True)
         result = {"data": None}
         cookie = request.cookies
         token = cookie.get("token")
@@ -116,8 +104,6 @@ def getmemberdata():
             decode = jwt.decode(token, secretkey, algorithms=["HS256"])
             user_name = decode["username"]
             email = decode["email"]
-            connection_object = connection_pool.get_connection()
-            cursor = connection_object.cursor(dictionary=True)
             query = ("SELECT id,name,email FROM members WHERE email=%s AND name=%s")
             cursor.execute(query, (email, user_name))
             record = cursor.fetchone()

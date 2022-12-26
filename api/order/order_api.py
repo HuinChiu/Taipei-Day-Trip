@@ -44,29 +44,22 @@ def pay_data():
         query_member_id = ("SELECT id from members WHERE email=%s;")
         cursor.execute(query_member_id, (member_email,))
         find_id = cursor.fetchone()
-        print(find_id)
         member_id = find_id["id"]
-        print(member_id)
         query_history = ("SELECT * FROM orders WHERE member_id=%s;")
         cursor.execute(query_history, (member_id,))
         find_history = cursor.fetchone()
-        print(find_history)
         if find_history != None:
             delete_history = ("DELETE FROM orders WHERE member_id=%s;")
             cursor.execute(delete_history, (member_id,))
             connection_object.commit()
-
         member_name = data["contact"]["name"]
         member_phone = data["contact"]["phone"]
         order_price = data["order"]["price"]
-        print("我有執行")
         query = ("INSERT INTO orders(order_id,member_id,member_name,"
                  "member_email,member_phone,price,pay_status) VALUES(%s,%s,%s,%s,%s,%s,1);")
         cursor.execute(query, (order_id, member_id, member_name,
                                member_email, member_phone, order_price))
         connection_object.commit()
-        print("susses")
-        print(merchant_id)
         post_data = {  # 建立傳送至第三方支付資料
             "prime": data["prime"],
             "partner_key": partner_key,
@@ -80,7 +73,6 @@ def pay_data():
                 "email": data["contact"]["email"]
             }
         }
-        print(partner_key)
         headers = {
             'Content-Type': 'application/json',
             'x-api-key': partner_key
@@ -88,22 +80,16 @@ def pay_data():
 
         response = requests.post(url, headers=headers, json=post_data)
         record = response.json()
-
-        print(record)
-
         if record["status"] == 0:
             final_status = 0
             change_status = (
                 "update orders set pay_status = %s where order_id =%s;")
             cursor.execute(change_status, (final_status, order_id))
-            print("change status!")
             connection_object.commit()
             result = {"data": {"number": "", "payment": {
                 "status": "", "message": "付款成功"}}}
-            print(result)
             result["data"]["number"] = order_id
             result["data"]["payment"]["status"] = final_status
-            print(result)
             return jsonify(result), 200
         else:
             return jsonify({"error": True, "message": "訂單建立失敗，付款失敗，請重新輸入"}), 400
@@ -113,7 +99,6 @@ def pay_data():
     finally:
         cursor.close()
         connection_object.close()
-        print("orders close")
 
 
 @ orders.route("/api/orders", methods=["GET"])
@@ -142,14 +127,12 @@ def get_pay_data():
         cookie = request.cookies
         token = cookie.get("token")
         decode = jwt.decode(token, secretkey, algorithms=["HS256"])
-        print(decode)
         if decode == None:
             return jsonify({"erro": True, "message": "未登入系統，拒絕存取"}, 403)
         connection_object = connection_pool.get_connection()
         cursor = connection_object.cursor(dictionary=True)
         id = decode["id"]
         email = decode["email"]
-        print(id)
         query2 = ("SELECT attraction.id, attraction.name, attraction.address, attraction.images,date_format(booking.date,'%Y-%m-%d') , booking.time , booking.price FROM attraction INNER JOIN booking ON booking.attraction_id=attraction.id WHERE member_id=%s ORDER BY order_time DESC;")
         cursor.execute(query2, (id,))
         record2 = cursor.fetchone()
@@ -160,24 +143,20 @@ def get_pay_data():
         result["data"]["trip"]["attraction"]["image"] = image
         result["data"]["trip"]["date"] = record2["date_format(booking.date,'%Y-%m-%d')"]
         result["data"]["trip"]["time"] = record2["time"]
-        print(record2)
         if record2 != None:
             query = ("SELECT * from orders WHERE member_email=%s;")
             cursor.execute(query, (email,))
             record = cursor.fetchone()
-            print(record)
             result["data"]["contact"]["name"] = record["member_name"]
             result["data"]["contact"]["email"] = record["member_email"]
             result["data"]["contact"]["phone"] = record["member_phone"]
             result["data"]["number"] = record["order_id"]
             result["data"]["price"] = record["price"]
             result["data"]["status"] = record["pay_status"]
-            print(result)  # ok
-
         return jsonify(result)
     except:
         return jsonify({"error": True, "message": "伺服器錯誤"}), 500
-    # finally:
-    #     cursor.close()
-    #     connection_object.close()
-    #     print("orders close")
+    finally:
+        cursor.close()
+        connection_object.close()
+        print("orders close")
