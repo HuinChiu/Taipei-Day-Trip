@@ -4,6 +4,7 @@ import ssl
 import os
 from dotenv import load_dotenv
 import jwt
+from mysql_connect import connection_pool
 
 # 使用.env隱藏私密訊息
 load_dotenv()
@@ -12,17 +13,6 @@ sql_password = os.getenv("sql_password")
 
 # 安全憑證
 ssl._create_default_https_context = ssl._create_unverified_context
-
-# 登入資mysql料庫
-connection_pool = pooling.MySQLConnectionPool(
-    pool_name="py_pool",
-    pool_size=32,
-    pool_reset_session=True,
-    host="localhost",          # 主機名稱
-    database="taipei_day_trip",  # 資料庫名稱
-    user=sql_user,        # 帳號
-    password=sql_password)  # 密碼
-
 
 # 初始化blueprint
 booking = Blueprint("booking", __name__)
@@ -49,7 +39,7 @@ def get_booking_data():
         else:
             decode = jwt.decode(token, secretkey, algorithms=["HS256"])
             id = decode["id"]
-            query2 = ("SELECT attraction.id, attraction.name, attraction.address, attraction.images,date_format(orders.date,'%Y-%m-%d') , orders.time , orders.price FROM attraction INNER JOIN orders ON orders.attraction_id=attraction.id WHERE member_id=%s ORDER BY order_time DESC;")
+            query2 = ("SELECT attraction.id, attraction.name, attraction.address, attraction.images,date_format(booking.date,'%Y-%m-%d') , booking.time , booking.price FROM attraction INNER JOIN booking ON booking.attraction_id=attraction.id WHERE member_id=%s ORDER BY order_time DESC;")
             cursor.execute(query2, (id,))
             record2 = cursor.fetchone()
             image = record2["images"].split(",")[0]
@@ -57,13 +47,17 @@ def get_booking_data():
             result["data"]["attraction"]["name"] = record2["name"]
             result["data"]["attraction"]["address"] = record2["address"]
             result["data"]["attraction"]["image"] = image
-            result["data"]["date"] = record2["date_format(orders.date,'%Y-%m-%d')"]
+            result["data"]["date"] = record2["date_format(booking.date,'%Y-%m-%d')"]
             result["data"]["time"] = record2["time"]
             result["data"]["price"] = record2["price"]
             return jsonify(result)
 
     except:
         return jsonify({"erro": True})
+    finally:
+        cursor.close()
+        connection_object.close()
+        print("booking get close")
 
 
 @ booking.route("/api/booking", methods=["POST"])
@@ -87,34 +81,36 @@ def create_booking_data():
             return jsonify({"erro": True, "message": "輸入資料有誤，請重新點選"}, 400)
 
         else:
-            query =("SELECT * FROM orders WHERE member_id=%s;")
+            query =("SELECT * FROM booking WHERE member_id=%s;")
             cursor.execute(query, (member_id,))
             member_data=cursor.fetchone()
             connection_object.commit()
             if member_data ==None:
                 query1 = (
-                    "INSERT INTO orders(member_id, attraction_id,date,time,price) VALUES ( %s, %s, %s, %s, %s);")
+                    "INSERT INTO booking(member_id, attraction_id,date,time,price) VALUES ( %s, %s, %s, %s, %s);")
                 cursor.execute(
                     query1, (member_id, attraction_id, date, time, price))
                 connection_object.commit()
-                cursor.close()
-                connection_object.close()
+
                 return jsonify({"ok": True})
             else:
                 query2 = (
-                    "DELETE FROM orders WHERE member_id=%s;")
+                    "DELETE FROM booking WHERE member_id=%s;")
                 cursor.execute(
                     query2, (member_id,))
                 connection_object.commit()
-                query3=("INSERT INTO orders(member_id, attraction_id,date,time,price) VALUES ( %s, %s, %s, %s, %s);")
+                query3=("INSERT INTO booking(member_id, attraction_id,date,time,price) VALUES ( %s, %s, %s, %s, %s);")
                 cursor.execute(
                     query3, (member_id, attraction_id, date, time, price))
                 connection_object.commit()
-                cursor.close()
-                connection_object.close()
+
                 return jsonify({"ok": True})
     except:
         return jsonify({"error": True, "message": "伺服器錯誤"}), 500
+    finally:
+        cursor.close()
+        connection_object.close()
+        print("booking POST close")
 
 
 @ booking.route("/api/booking", methods=["DELETE"])
@@ -138,12 +134,15 @@ def delete_booking_data():
                 time = data["time"]
                 price = data["price"]
                 query = (
-                    "DELETE FROM orders WHERE member_id=%s and attraction_id=%s and date=%s and time=%s and price=%s;")
+                    "DELETE FROM booking WHERE member_id=%s and attraction_id=%s and date=%s and time=%s and price=%s;")
                 cursor.execute(
                     query, (member_id, attraction_id, date, time, price))
                 connection_object.commit()
-                cursor.close()
-                connection_object.close()
+
                 return jsonify({"ok": True})
     except:
         return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
+    finally:
+        cursor.close()
+        connection_object.close()
+        print("booking DELETE close")

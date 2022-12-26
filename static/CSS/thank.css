@@ -1,0 +1,10 @@
+.notice_order{
+    display: none;
+}
+.main{
+    width: 1200px;
+    margin: auto;
+}
+footer{
+    padding:50px 0px 100% 0px;
+}
