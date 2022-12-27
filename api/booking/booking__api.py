@@ -34,12 +34,17 @@ def get_booking_data():
                                           "address": "", "image": "", }, "date": "", "time": "", "price": ""}}
         cookie = request.cookies
         token = cookie.get("token")
-        if token == None:
+        decode = jwt.decode(token, secretkey, algorithms=["HS256"])
+        if decode == None:
             return jsonify({"erro": True, "message": "未登入系統，拒絕存取"}, 403)
         else:
-            decode = jwt.decode(token, secretkey, algorithms=["HS256"])
+
             id = decode["id"]
-            query2 = ("SELECT attraction.id, attraction.name, attraction.address, attraction.images,date_format(booking.date,'%Y-%m-%d') , booking.time , booking.price FROM attraction INNER JOIN booking ON booking.attraction_id=attraction.id WHERE member_id=%s ORDER BY order_time DESC;")
+            query2 = ("SELECT attraction.id, attraction.name, attraction.address, "
+                      "attraction.images,date_format(booking.date,'%Y-%m-%d') , booking.time ,"
+                      " booking.price FROM attraction INNER JOIN booking ON "
+                      "booking.attraction_id=attraction.id WHERE member_id=%s ORDER BY "
+                      "order_time DESC;")
             cursor.execute(query2, (id,))
             record2 = cursor.fetchone()
             image = record2["images"].split(",")[0]

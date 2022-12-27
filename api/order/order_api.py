@@ -35,31 +35,39 @@ def pay_data():
         print(data)
         if data["prime"] == "":
             return jsonify({"error": True, "message": "訂單建立失敗，付款失敗，請重新輸入"})
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor(dictionary=True)
         # 建立訂單編號
         order_id = datetime.datetime.now().strftime('%Y%m%d%H%M%S')  # 建立訂單編號
         # 新增資料至後端
-        member_email = data["contact"]["email"]
-        connection_object = connection_pool.get_connection()
-        cursor = connection_object.cursor(dictionary=True)
-        query_member_id = ("SELECT id from members WHERE email=%s;")
-        cursor.execute(query_member_id, (member_email,))
-        find_id = cursor.fetchone()
-        member_id = find_id["id"]
+        member_id = decode["id"]
+        print(member_id)
         query_history = ("SELECT * FROM orders WHERE member_id=%s;")
         cursor.execute(query_history, (member_id,))
         find_history = cursor.fetchone()
+        print(find_history)
         if find_history != None:
             delete_history = ("DELETE FROM orders WHERE member_id=%s;")
             cursor.execute(delete_history, (member_id,))
             connection_object.commit()
-        member_name = data["contact"]["name"]
-        member_phone = data["contact"]["phone"]
-        order_price = data["order"]["price"]
-        query = ("INSERT INTO orders(order_id,member_id,member_name,"
-                 "member_email,member_phone,price,pay_status) VALUES(%s,%s,%s,%s,%s,%s,1);")
-        cursor.execute(query, (order_id, member_id, member_name,
-                               member_email, member_phone, order_price))
-        connection_object.commit()
+            print("delete orders")
+        print("after delete")
+        order_email = data["contact"]["email"]
+        order_name = data["contact"]["name"]
+        order_phone = data["contact"]["phone"]
+        attraction_id = data["order"]["trip"]["attraction"]["id"]
+        reservation_date = data["order"]["date"]
+        reservation_time = data["order"]["time"]
+        price = data["order"]["price"]
+        print(order_email, order_id, order_name, attraction_id,
+              reservation_date, reservation_time, price)
+        query = ("INSERT INTO orders(order_id,member_id,order_name,"
+                 "order_email,order_phone,attraction_id,reservation_date,"
+                 "reservation_time,price,order_status) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,1);")
+        cursor.execute(query, (order_id, member_id, order_name,
+                               order_email, order_phone, attraction_id, reservation_date,
+                               reservation_time, price))
+        # connection_object.commit()
         post_data = {  # 建立傳送至第三方支付資料
             "prime": data["prime"],
             "partner_key": partner_key,
@@ -80,12 +88,18 @@ def pay_data():
 
         response = requests.post(url, headers=headers, json=post_data)
         record = response.json()
+        print(record)
         if record["status"] == 0:
+            delete_booking = ("DELETE FROM booking WHERE member_id=%s")
+            cursor.execute(delete_booking, (member_id,))
+            connection_object.commit()
+            print("delete booking!")
             final_status = 0
             change_status = (
-                "update orders set pay_status = %s where order_id =%s;")
+                "update orders set order_status = %s where order_id =%s;")
             cursor.execute(change_status, (final_status, order_id))
             connection_object.commit()
+            print("update order_id!")
             result = {"data": {"number": "", "payment": {
                 "status": "", "message": "付款成功"}}}
             result["data"]["number"] = order_id
@@ -129,34 +143,58 @@ def get_pay_data():
         decode = jwt.decode(token, secretkey, algorithms=["HS256"])
         if decode == None:
             return jsonify({"erro": True, "message": "未登入系統，拒絕存取"}, 403)
+        print("我在這！")
         connection_object = connection_pool.get_connection()
         cursor = connection_object.cursor(dictionary=True)
+        print("cursor@")
         id = decode["id"]
-        email = decode["email"]
-        query2 = ("SELECT attraction.id, attraction.name, attraction.address, attraction.images,date_format(booking.date,'%Y-%m-%d') , booking.time , booking.price FROM attraction INNER JOIN booking ON booking.attraction_id=attraction.id WHERE member_id=%s ORDER BY order_time DESC;")
-        cursor.execute(query2, (id,))
+        query = ("SELECT orders.order_id,orders.price,"
+                 "attraction.id, attraction.name, attraction.address, attraction.images,"
+                 "date_format(orders.reservation_date,'%Y-%m-%d'),orders.reservation_time,"
+                 "orders.order_name,orders.order_email,orders.order_phone,orders.order_status "
+                 "FROM attraction INNER JOIN orders ON orders.attraction_id=attraction.id WHERE member_id=%s"
+                 " ORDER BY order_time DESC;")
+        cursor.execute(query, (id,))
         record2 = cursor.fetchone()
-        image = record2["images"].split(",")[0]
+        print(record2)
+        result["data"]["number"] = record2["order_id"]
+        result["data"]["price"] = record2["price"]
         result["data"]["trip"]["attraction"]["id"] = record2["id"]
         result["data"]["trip"]["attraction"]["name"] = record2["name"]
         result["data"]["trip"]["attraction"]["address"] = record2["address"]
-        result["data"]["trip"]["attraction"]["image"] = image
-        result["data"]["trip"]["date"] = record2["date_format(booking.date,'%Y-%m-%d')"]
-        result["data"]["trip"]["time"] = record2["time"]
-        if record2 != None:
-            query = ("SELECT * from orders WHERE member_email=%s;")
-            cursor.execute(query, (email,))
-            record = cursor.fetchone()
-            result["data"]["contact"]["name"] = record["member_name"]
-            result["data"]["contact"]["email"] = record["member_email"]
-            result["data"]["contact"]["phone"] = record["member_phone"]
-            result["data"]["number"] = record["order_id"]
-            result["data"]["price"] = record["price"]
-            result["data"]["status"] = record["pay_status"]
+        result["data"]["trip"]["attraction"]["images"] = record2["images"]
+        result["data"]["trip"]["date"] = record2["date_format(orders.reservation_date,'%Y-%m-%d')"]
+        result["data"]["trip"]["time"] = record2["reservation_time"]
+        result["data"]["contact"]["name"] = record2["order_name"]
+        result["data"]["contact"]["email"] = record2["order_email"]
+        result["data"]["contact"]["phone"] = record2["order_phone"]
+        result["data"]["status"] = record2["order_status"]
+        print(result)
         return jsonify(result)
     except:
         return jsonify({"error": True, "message": "伺服器錯誤"}), 500
-    finally:
-        cursor.close()
-        connection_object.close()
-        print("orders close")
+    # finally:
+    #     cursor.close()
+    #     connection_object.close()
+    #     print("orders close")
+
+
+# 更改get
+        query = ("SELECT attraction.id, attraction.name, attraction.address, attraction.images"
+                 "orders.date_format(reservation_date,'%Y-%m-%d'),order.reservation_time,order.price"
+                 "FROM attraction INNER JOIN order ON orders.attraction_id=attraction.id WHERE member_id=%s"
+                 " ORDER BY order_time DESC;")
+
+        id = decode["id"]
+        cursor.execute(query, (id,))
+        record = cursor.fetchone()
+        image = record["images"].split(",")[0]
+        result["data"]["attraction"]["id"] = record["id"]
+        result["data"]["attraction"]["name"] = record["name"]
+        result["data"]["attraction"]["address"] = record["address"]
+        result["data"]["attraction"]["image"] = image
+        result["data"]["date"] = record["date_format(reservation_date,'%Y-%m-%d')"]
+        result["data"]["time"] = record["reservation__time"]
+        result["data"]["price"] = record["price"]
+        print(result)
+        return jsonify(result)

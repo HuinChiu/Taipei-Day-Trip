@@ -39,7 +39,7 @@ a:hover {
     font-size: 30px;
     font-weight: 700;
     color: #448899;
-    margin: 10px 0px;
+    margin: 10px px;
 }
 
 .menu {
@@ -56,7 +56,7 @@ a:hover {
 
 .signout {
     display: none;
-    margin: 0px 10px;
+    margin-right: 10px;
 }
 
 .signout:hover {

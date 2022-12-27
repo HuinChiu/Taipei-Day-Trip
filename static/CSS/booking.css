@@ -55,7 +55,7 @@ input {
     font-size: 30px;
     font-weight: 700;
     color: #448899;
-    margin: 10px 0px;
+    margin: 10px 10px;
 }
 
 .menu {
@@ -65,13 +65,17 @@ input {
     margin: 20px 0px;
 }
 
+.item {
+    margin-left: 10px;
+}
+
 .signin:hover {
     cursor: pointer;
 }
 
 .signout {
     display: none;
-    margin: 0px 10px;
+    margin-right: 10px;
 }
 
 .signout:hover {

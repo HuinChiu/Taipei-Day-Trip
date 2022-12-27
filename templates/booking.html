@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{url_for('static',filename='CSS/style.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='CSS/booking.css')}}">
 
     <title>台北一日遊 - 預定行程</title>
@@ -48,13 +47,14 @@
                 <div class="title">台北一日遊</div>
             </a>
             <div class="menu">
-                <a href="/booking">
-                    <div class="item booking_btn">預定行程</div>
-                </a>
+                <div class="item booking_btn">
+                    <a href="/booking">預定行程</a>
+                </div>
                 <div class="item signin">登入/註冊</div>
-                <a href="/">
-                    <div class="signout">登出</div>
-                </a>
+                <div class="item signout">
+                    <a href="/">登出</a>
+                </div>
+
             </div>
         </nav>
     </div>

@@ -54,7 +54,7 @@ a:hover {
 }
 
 .item {
-    margin: 0px 10px;
+    margin-left: 10px;
 }
 
 .signin:hover {
@@ -63,7 +63,7 @@ a:hover {
 
 .signout {
     display: none;
-    margin: 0px 10px;
+    margin-left: 10px;
 }
 
 .signout:hover {

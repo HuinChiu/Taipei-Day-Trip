@@ -15,3 +15,10 @@ a {
     text-decoration: none;
     color: #666666;
 }
+
+
+@media (max-width: 360px) {
+    .title {
+        width: 150px;
+    }
+}

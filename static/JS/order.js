@@ -1,12 +1,3 @@
-
-//帶入.env檔
-// require('dotenv').config();
-// console.log(process.env)
-
-// const APP_ID = process.env["appID"]
-// const APP_KEY = process.env["appKey"]
-// console.log(APP_ID, APP_KEY)
-
 //設定Display ccv field
 let fields = {
     number: {
@@ -95,16 +86,16 @@ async function onSubmit(event) {
     }
 
     // Get prime
-    TPDirect.card.getPrime(function(result){
+    TPDirect.card.getPrime(function (result) {
         if (result.status !== 0) {
             alert('get prime error ' + result.msg)
             return
         }
-        else{
+        else {
             const prime = result.card.prime
             entry.prime = prime
-            console.log("thisis"+JSON.stringify(entry.prime))
-            console.log("this is "+entry)
+            console.log("thisis" + JSON.stringify(entry.prime))
+            console.log("this is " + entry)
             const name = document.querySelector(".input_name").value
             const email = document.querySelector(".input_email").value
             const phone = document.querySelector(".input_phone").value
@@ -137,17 +128,17 @@ async function onSubmit(event) {
                         console.log(data.data.number)
                         window.location.href = `/thankyou?number=${data.data.number}`
                     }
-                    else{
+                    else {
                         alert("付款失敗!請重新輸入!")
                     }
-                }) 
+                })
             })
 
-             
+
         }
 
     })
-    
+
 }
 
 
