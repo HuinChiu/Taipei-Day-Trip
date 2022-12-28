@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{url_for('static',filename='CSS/style.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='CSS/booking.css')}}">
 
     <title>台北一日遊 - 預定行程</title>
@@ -48,13 +47,14 @@
                 <div class="title">台北一日遊</div>
             </a>
             <div class="menu">
-                <a href="/booking">
-                    <div class="item booking_btn">預定行程</div>
-                </a>
+                <div class="item booking_btn">
+                    <a href="/booking">預定行程</a>
+                </div>
                 <div class="item signin">登入/註冊</div>
-                <a href="/">
-                    <div class="signout">登出</div>
-                </a>
+                <div class="item signout">
+                    <a href="/">登出</a>
+                </div>
+
             </div>
         </nav>
     </div>
@@ -102,28 +102,25 @@
         </div>
         <hr>
         <div class="main3">
-            <div class="creditcard_item creditcard">信用卡付款資訊</div>
-            <div class="creditcard_item creditcard_number">
-                <label for="credit_number">卡片號碼：</label><span><input type="number" placeholder="xxxx xxxx xxxx xxxx"
-                        name="credit_number" id="credit_number" required></span>
+            <div class="creditcard_title">信用卡付款資訊</div>
+            <div class="creditcard_item">
+                <div>卡片號碼：</div>
+                <div class="tpfield " id="card-number"></div>
             </div>
-            <div class="creditcard_item creditcard_exp">
-                <label for="credit_date">過期時間：</label>
-                <span>
-                    <input type="text" name="credit_date" placeholder="MM/YY" name="credit_date" id="credit_date"
-                        minlength="5" maxlength="5" required />
+            <div class="creditcard_item">
+                <div>過期時間：</div>
+                <div class="tpfield " id="card-expiration-date"></div>
+            </div>
+            <div class="creditcard_item">
+                <div>驗證密碼：</div>
+                <div class="tpfield " id="card-ccv"></div>
+            </div>
 
-                </span>
+
+            <div class="final">
+                <div class="total_price">總價：<span>新台幣<span>2000元</span></span></div>
+                <button class="order_btn">確認訂購並付款</button>
             </div>
-            <div class="creditcard_item creditcard_password">
-                <label for="credit_password">驗證密碼：</label><span><input type="text" name="credit_password"
-                        placeholder="CVV" id="credit_password" minlength="3" maxlength="3" required></span>
-            </div>
-        </div>
-        <hr>
-        <div class="final">
-            <div class="total_price">總價：<span>新台幣<span>2000元</span></span></div>
-            <button class="order_btn">確認訂購並付款</button>
         </div>
     </main>
 
@@ -131,8 +128,13 @@
     <footer>
         <div class="footer-item">COPYRIGHT © 2021 台北一日遊</div>
     </footer>
+    <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
+    <script>
+        TPDirect.setupSDK(126925, "app_pbIdwIqeZdcoSjlMPPKQ53jAZ87NvSedFGQ3A8jUG2uVQc3CaJKWV8aByV9m", 'sandbox')
+    </script>
     <script type="text/javascript" src="{{url_for('static', filename='JS/signin.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='JS/booking.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='JS/order.js')}}"></script>
 
 
 </body>

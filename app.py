@@ -3,6 +3,7 @@ from api.attraction.attraction_api import attraction
 from api.category.category_api import category
 from api.user.auth_api import auth
 from api.booking.booking__api import booking
+from api.order.order_api import orders
 
 
 # 初始化flask
@@ -19,6 +20,7 @@ app.register_blueprint(attraction)
 app.register_blueprint(category)
 app.register_blueprint(auth)
 app.register_blueprint(booking)
+app.register_blueprint(orders)
 
 
 # Pages

@@ -55,7 +55,7 @@ input {
     font-size: 30px;
     font-weight: 700;
     color: #448899;
-    margin: 10px 0px;
+    margin: 10px 10px;
 }
 
 .menu {
@@ -65,13 +65,17 @@ input {
     margin: 20px 0px;
 }
 
+.item {
+    margin-left: 10px;
+}
+
 .signin:hover {
     cursor: pointer;
 }
 
 .signout {
     display: none;
-    margin: 0px 10px;
+    margin-right: 10px;
 }
 
 .signout:hover {
@@ -339,13 +343,25 @@ main {
 }
 
 /*main3*/
-.creditcard {
+
+.creditcard_title {
     font-size: 19px;
     font-weight: 700;
+    margin-bottom: 20px;
 }
 
 .creditcard_item {
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.tpfield {
+    height: 20px;
+    width: 200px;
+    border: 1px solid #E8E8E8;
+    border-radius: 5px;
+    margin: 5px 0;
+    padding: 10px;
 }
 
 /*final*/

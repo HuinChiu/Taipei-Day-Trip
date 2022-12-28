@@ -44,7 +44,7 @@ notice2.addEventListener("click", function () {
     message = document.querySelectorAll(".message");
     message[1].innerText = ""
 })
-
+checkcookie();
 
 // signup
 function sendData() {

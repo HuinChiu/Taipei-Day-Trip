@@ -3,7 +3,7 @@ from mysql.connector import pooling
 import ssl
 import os
 from dotenv import load_dotenv
-
+from mysql_connect import connection_pool
 # 使用.env隱藏私密訊息
 load_dotenv()
 sql_user = os.getenv("sql_user")
@@ -11,17 +11,6 @@ sql_password = os.getenv("sql_password")
 
 # 安全憑證
 ssl._create_default_https_context = ssl._create_unverified_context
-
-# 登入資mysql料庫
-connection_pool = pooling.MySQLConnectionPool(
-    pool_name="py_pool",
-    pool_size=32,
-    pool_reset_session=True,
-    host="localhost",          # 主機名稱
-    database="taipei_day_trip",  # 資料庫名稱
-    user=sql_user,        # 帳號
-    password=sql_password)  # 密碼
-
 
 # 初始化blueprint
 attraction = Blueprint("attraction", __name__)
@@ -37,7 +26,6 @@ def getattractions():
     # 連接資料庫
     connection_object = connection_pool.get_connection()
     cursor = connection_object.cursor(dictionary=True)
-
     # 判斷keyword，keyword=None，代表顯示所有資料
     if keyword == "None":
         # 找出所有項目總和
@@ -51,8 +39,8 @@ def getattractions():
         record = cursor.fetchall()  # 每次查詢出來只會有12筆
         result["data"] = record
         count = (len(record))
-        connection_object.close()
         cursor.close()
+        connection_object.close()
         if count == 0:
             return jsonify({"erro": True, "message": "找不到任何訊息，請重新輸入關鍵字或頁數"}), 500
         else:
@@ -72,7 +60,6 @@ def getattractions():
         cursor.close()
         connection_object.close()
         count = (len(record))
-        print(count)
         if count == 0:
             return jsonify({"erro": True, "message": "找不到任何訊息，請重新輸入關鍵字或頁數"}), 500
         else:
@@ -95,8 +82,7 @@ def attraction_id(attractionId):
         cursor.execute(query, (attractionId,))
         record = cursor.fetchone()
         result["data"] = record
-        cursor.close()
-        connection_object.close()
+        print("attractionID get close")
         if record == None:
             return jsonify({"erro": True, "message": "找不到任何訊息，景點編號輸入錯誤，請重新輸入景點編號"}), 400
         else:
@@ -105,3 +91,7 @@ def attraction_id(attractionId):
             return jsonify(result), 200
     except:
         return jsonify({"erro": True, "message": "伺服器錯誤，請稍後再試"}), 500
+    finally:
+        cursor.close()
+        connection_object.close()
+        print("attractionIDget close")

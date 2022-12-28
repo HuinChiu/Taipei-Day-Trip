@@ -1,6 +1,6 @@
 //獲取景點資料
 let url = `/api${location.pathname}`;
-console.log(url)
+
 fetch(url).then(function (resp) {
     return resp.json();
 }).then(function (data) {
@@ -39,8 +39,6 @@ fetch(url).then(function (resp) {
         )
     }
     checkcookie();
-    const orderBtn = document.querySelector(".order_btn")
-    orderBtn.addEventListener("click", checksignin)
 
 
     //第一張圖radio checked
@@ -108,10 +106,8 @@ order_btn.addEventListener("click", sentOrder)
 
 async function sentOrder() {
     await fetch("/api/user/auth").then(function (resp) {
-        console.log(resp)
         return resp.json()
     }).then(function (data) {
-        console.log(data.data)
         if (data.data == null) {
             document.querySelector(".sign").style.display = "block";
         }
@@ -149,7 +145,6 @@ async function sentOrder() {
                 console.log(data)
                 if (data["ok"] == true) {
                     window.location.href = "/booking"
-
                 }
             })
 
