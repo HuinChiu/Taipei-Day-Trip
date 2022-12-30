@@ -9,9 +9,15 @@ body {
     margin: 0px;
 }
 
+input {
+    outline: none;
+}
+
 a {
     text-decoration: none;
+    color: #666666;
 }
+
 
 a:hover {
     cursor: pointer;
@@ -29,6 +35,7 @@ input {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #E8E8E8;
+    outline: none;
 }
 
 .fix {
@@ -362,6 +369,10 @@ main {
     border-radius: 5px;
     margin: 5px 0;
     padding: 10px;
+}
+
+.creditcard_item:hover {
+    cursor: pointer;
 }
 
 /*final*/

@@ -51,6 +51,17 @@ function sendData() {
     const signupName = document.querySelector("#signup_name").value;
     const signupEmail = document.querySelector("#signup_email").value;
     const signupPassword = document.querySelector("#signup_password").value;
+    if (signupName === "" || signupEmail === "" || signupPassword === "") {
+        swal("註冊失敗", "填寫資料有誤，請重新輸入", "error")
+        return false
+    }
+    console.log(signupEmail)
+    // 驗證email格式
+    var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+    if (regex.test(signupEmail) != true) {
+        swal("註冊失敗", "信箱格式錯誤，請重新輸入信箱", "error")
+        return false
+    }
     let entry = { name: signupName, email: signupEmail, password: signupPassword }; //將name放入字典{name:123}
     let url = "/api/user";//api url
     fetch(url, {
@@ -64,15 +75,14 @@ function sendData() {
     }).then(function (data) {
         console.log(data)
         if (data.ok === true) {
-            let message = document.querySelectorAll(".message");
-            message[1].style.display = "block"
-            message[1].innerText = "帳號註冊成功，請點選登入"
+            swal("註冊成功", "請重新登入帳號", "success")
+            document.querySelector(".signbox").style.display = "block"
+            document.querySelector(".signup_box").style.display = "none"
         }
         else if (data.erro == true) {
             let returnMessage = data.message
-            let message = document.querySelectorAll(".message")
-            message[1].style.display = "block"
-            message[1].innerText = returnMessage
+            swal("註冊失敗", returnMessage, "error")
+
         }
     })
 }
@@ -96,9 +106,10 @@ async function signin() {
         }).then(function (data) {
             if (data.erro == true) {
                 const returnMessage = data.message
-                const message = document.querySelectorAll(".message")
-                message[0].style.display = "block"
-                message[0].innerText = returnMessage
+                swal("登入失敗", returnMessage, "error")
+                // const message = document.querySelectorAll(".message")
+                // message[0].style.display = "block"
+                // message[0].innerText = returnMessage
             } else {
                 cookie = document.cookie
             }
@@ -121,6 +132,7 @@ signout.addEventListener("click", function () {
         if (data.ok == true) {
             document.querySelector(".signin").style.display = "block";
             document.querySelector(".signout").style.display = "none";
+            window.location.href = "/";
         }
     })
 

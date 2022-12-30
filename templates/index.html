@@ -6,11 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static',filename='CSS/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='CSS/index.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title>台北一日遊</title>
 </head>
+<div class="loading">
+    <div class="ring">Loading
+        <span></span>
+    </div>
+</div>
+
 <div class="sign">
     <div class="signbox">
         <div class="decorate"></div>
@@ -45,11 +53,9 @@
                 <div class="title">台北一日遊</div>
             </a>
             <div class="menu">
-                <div class="item booking_btn">預定行程</div>
-                <div class="item signin">登入/註冊</div>
-                <a href="/">
-                    <div class="signout">登出</div>
-                </a>
+                <div class="menu_item booking_btn">預定行程</div>
+                <div class="menu_item signin">登入/註冊</div>
+                <div class="menu_item signout">登出</div>
             </div>
         </nav>
     </div>
@@ -78,6 +84,7 @@
     <footer>
         <div class="footer-item">COPYRIGHT © 2021 台北一日遊</div>
     </footer>
+
     <script type="text/javascript" src="{{url_for('static', filename='JS/index.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='JS/signin.js')}}"></script>
 

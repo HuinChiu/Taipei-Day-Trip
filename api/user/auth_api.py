@@ -1,6 +1,7 @@
 from flask import *
 from mysql.connector import pooling
 import os
+import re
 from dotenv import load_dotenv
 import jwt
 from jwt import exceptions
@@ -22,14 +23,20 @@ secretkey = os.getenv("jwt_secretkey")
 @ auth.route("/api/user", methods=["POST"])
 def signup():
     try:
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor(dictionary=True)
         data = request.get_json()
         name = data["name"]
         email = data["email"]
         password = data["password"]
         if name == "" or email == "" or password == "":
             return jsonify({"erro": True, "message": "註冊失敗，資料未輸入完全，請重新輸入"})
-        connection_object = connection_pool.get_connection()
-        cursor = connection_object.cursor(dictionary=True)
+         # 確認email格式是否正確
+        regex = re.compile(
+            r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+        check = bool(re.search(regex, "hana840101@gmail.com"))
+        if check == False:
+            return jsonify({"erro": True, "message": "請輸入有效的信箱"})
         query = ("SELECT email FROM members WHERE email=%s")
         cursor.execute(query, (email,))
         record = cursor.fetchone()
@@ -53,14 +60,14 @@ def signup():
 @auth.route("/api/user/auth", methods=["PUT"])
 def signin():
     try:
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor(dictionary=True)
         data = request.get_json()
         email = data["email"]
         password = data["password"]
         if email == "" or password == "":
             return jsonify({"erro": True, "message": "登入失敗，資料未輸入完全，請重新輸入"})
         member = (email, password)
-        connection_object = connection_pool.get_connection()
-        cursor = connection_object.cursor(dictionary=True)
         query = ("SELECT * FROM members WHERE email=%s AND password=%s")
         cursor.execute(query, member)
         record = cursor.fetchone()
@@ -98,10 +105,10 @@ def getmemberdata():
         result = {"data": None}
         cookie = request.cookies
         token = cookie.get("token")
-        if token == None:
+        decode = jwt.decode(token, secretkey, algorithms=["HS256"])
+        if decode == None:
             return jsonify({"data": None})
         else:
-            decode = jwt.decode(token, secretkey, algorithms=["HS256"])
             user_name = decode["username"]
             email = decode["email"]
             query = ("SELECT id,name,email FROM members WHERE email=%s AND name=%s")

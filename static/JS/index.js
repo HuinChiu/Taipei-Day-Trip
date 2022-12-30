@@ -13,6 +13,7 @@ let observer = new IntersectionObserver(
     function (entries, observer) {
         // 每當目標元素進入畫面後就新增20筆，並且重置觀察的元素
         if (entries[0].isIntersecting) {
+            document.querySelector(".loading").style.display = "block";
             callback(nextPage);
             observer.observe(footer);
         }
@@ -20,10 +21,20 @@ let observer = new IntersectionObserver(
     options
 );
 observer.observe(footer);
+get_img_preload();
+// imagepreload
+async function get_img_preload() {
+    let img_list = [];
+    let url = `/api/attractions?page=${nextPage}`
+    await fetch(url){ }
 
+}
+
+
+//取得每頁資料
 async function callback() {
     if (nextPage == null) {
-        return;
+        document.querySelector(".loading").style.display = "none";
     } else {
         let url = ""
         if (search.value == "") {
@@ -78,6 +89,7 @@ async function callback() {
                 itemDiv.appendChild(itemTitle);
                 itemDescrip.appendChild(itemMrt);
                 itemDescrip.appendChild(itemCategory);
+                document.querySelector(".loading").style.display = "none";
             }
         }
     }

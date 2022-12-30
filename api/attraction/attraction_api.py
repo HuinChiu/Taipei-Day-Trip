@@ -4,6 +4,7 @@ import ssl
 import os
 from dotenv import load_dotenv
 from mysql_connect import connection_pool
+import time
 # 使用.env隱藏私密訊息
 load_dotenv()
 sql_user = os.getenv("sql_user")
@@ -18,6 +19,8 @@ attraction = Blueprint("attraction", __name__)
 
 @attraction.route("/api/attractions", methods=["GET"])  # 取得景點列表
 def getattractions():
+
+    time.sleep(0.5)
     page = int(request.args.get("page", 0))  # 取得頁碼
     start_num = page * 12  # 取得頁碼中的12比資料
     result = {"nextPage": page+1, "data": []}

@@ -1,0 +1,33 @@
+{% extends "base.html"%}
+{% block head%}
+<link rel="stylesheet" href="{{url_for('static',filename='CSS/style.css')}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+{% endblock %}
+{% block title %}台北一日遊{% endblock %}
+
+{% block main%}
+<header>
+    <div class="header">
+        <div class="header-item">輕鬆享受台北一日悠閒</div>
+        <div class="header-item2">探索探索每個角落，體驗城市的深度旅遊行程</div>
+        <div class="search_bar">
+            <input class="header_search" id="header_search" type="text" placeholder="輸入景點名稱查詢">
+            <button class="header_btn"><img src="{{url_for('static',filename='images/icon_search.png')}}"
+                    alt=""></button>
+            <div class="category">
+
+            </div>
+        </div>
+    </div>
+
+</header>
+<main>
+
+</main>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{url_for('static', filename='JS/index.js')}}"></script>
+{% endblock %}

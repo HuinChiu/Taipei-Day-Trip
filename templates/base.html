@@ -2,10 +2,12 @@
 <html lang="en">
 
 <head>
+    {% block head%}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
 </head>
 
 <body>
@@ -41,20 +43,20 @@
             <div class="menu">
                 <div class="item booking_btn">預定行程</div>
                 <div class="item signin">登入/註冊</div>
-                <a href="/">
-                    <div class="signout">登出</div>
-                </a>
+                <div class="item signout"></div>
+                <a href="/">登出</a>
             </div>
         </nav>
     </div>
-    {% block content %}
+    {% block main %}
 
     {% endblock %}
-
     <footer>
         <div class="footer-item">COPYRIGHT © 2021 台北一日遊</div>
     </footer>
+    {% block script %}
     <script type="text/javascript" src="{{url_for('static', filename='JS/signin.js')}}"></script>
+    {% endblock %}
 </body>
 
 </html>
