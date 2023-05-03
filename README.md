@@ -7,6 +7,8 @@ Users can also search for attractions by category and order trips on specific da
 
 To get started, follow the installation instructions in the README and start exploring the best of Taipei!
 
+##Demo
+
 ## Features
 ### Home Page
 The home page of the Taipei-Day-Trip project allows you to view all the attractions of Taipei City. 
@@ -20,8 +22,8 @@ You can select the date you want to visit and see the price of the trip. When yo
 ### Order page
 On the Order page, you can review your order details and provide your credit card information to complete the purchase. For testing purposes, you can use the following credit card information:
 ```
-card number: 4242-4242-4242
-expirde date: 01/23
+card number: 4242-4242-4242-4242
+expirde date: 01/25
 CVS: 123
 ```
 After double-checking your order details and entering your credit card information, click "Submit" to proceed with the purchase. You will then be redirected to the Thank You page.
@@ -66,26 +68,12 @@ To use this application, follow these steps:
 8. Enter your payment information.
 9. Confirm your order.
 
-If you encounter any issues while using the application, please reach out to the customer support team for assistance.
-
-(In addition to these basic steps, you should also provide instructions on how to use any advanced features or functionality in your application, and include any relevant screenshots or visuals to help users better understand how to use the application.)
-
-## Credits
-This project would not have been possible without the help and support of many people.
-I would like to thank the following: [Chao-Wei- Peng](https://github.com/cwpeng) for his guidance and mentorship throughout the development process.
 
 ## Contact
 If you have any questions, comments, or suggestions for this project, please feel free to contact me:
 
 Email: hana840101@gmail.com
 GitHub: HuinChiu
-I welcome any feedback or contributions, and I look forward to hearing from you!
 
-## Conclusion
-Thank you for taking the time to explore this project! While the current version is functional, we have plans to add additional features and enhancements in the future. Some of the ideas we're considering include:
-
-Implementing a member system to offer personalized services and benefits to our loyal customers.
-Adding an order management system to enable users to view and manage their orders more efficiently.
-Thank you again for your interest in this project!
 
 Thank you again for your interest in this project!
