@@ -24,24 +24,8 @@ fetch(url)
 
     // 設置img
     let imgBox = document.querySelector(".img_box");
-    // imgBox.style.backgroundImage = `url(${imgList[0]})`;
-    // for (let i = 0; i < imgCount; i++) {
-    //   let radio = document.querySelector(".radio");
-    //   let imgRadio = document.createElement("input");
-    //   imgRadio.className = "img_radio";
-    //   imgRadio.type = "radio";
-    //   imgRadio.name = "radio";
-    //   imgRadio.className = "img_radio";
-    //   radio.appendChild(imgRadio);
-
-    //   imgRadio.addEventListener("click", function () {
-    //     let imgBox = document.querySelector(".img_box");
-    //     imgBox.style.backgroundImage = `url(${imgList[i]})`;
-    //   });
-    // }
-    let loadedImages = 0;
-
-    for (let i = 0; i < imgList.length; i++) {
+    imgBox.style.backgroundImage = `url(${imgList[0]})`;
+    for (let i = 0; i < imgCount; i++) {
       let radio = document.querySelector(".radio");
       let imgRadio = document.createElement("input");
       imgRadio.className = "img_radio";
@@ -49,18 +33,33 @@ fetch(url)
       imgRadio.name = "radio";
       imgRadio.className = "img_radio";
       radio.appendChild(imgRadio);
-      let image = new Image();
-      image.onload = function () {
-        loadedImages++;
-        if (loadedImages == imgList.length) {
-          // Code to execute when all images have finished loading
-          console.log("All images have finished loading!");
-          let loading = document.querySelector(".loading");
-          loading.style.display = "none";
-        }
-      };
-      image.src = imgList[i];
+      imgRadio.addEventListener("click", function () {
+        let imgBox = document.querySelector(".img_box");
+        imgBox.style.backgroundImage = `url(${imgList[i]})`;
+      });
     }
+    // let loadedImages = 0;
+
+    // for (let i = 0; i < imgList.length; i++) {
+    //   let radio = document.querySelector(".radio");
+    //   let imgRadio = document.createElement("input");
+    //   imgRadio.className = "img_radio";
+    //   imgRadio.type = "radio";
+    //   imgRadio.name = "radio";
+    //   imgRadio.className = "img_radio";
+    //   radio.appendChild(imgRadio);
+    //   let image = new Image();
+    //   image.onload = function () {
+    //     loadedImages++;
+    //     if (loadedImages == imgList.length) {
+    //       // Code to execute when all images have finished loading
+    //       console.log("All images have finished loading!");
+    //       let loading = document.querySelector(".loading");
+    //       loading.style.display = "none";
+    //     }
+    //   };
+    //   image.src = imgList[i];
+    // }
     checkcookie();
 
     //第一張圖radio checked

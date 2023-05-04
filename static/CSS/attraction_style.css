@@ -21,7 +21,7 @@ a:hover {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   position: fixed;
@@ -378,6 +378,7 @@ main {
   border-radius: 50%;
   margin: 6px;
   appearance: none;
+  cursor: pointer;
 }
 
 .img_radio:checked {
@@ -392,11 +393,13 @@ main {
   border-radius: 50%;
   margin-left: 10px;
   opacity: 0.6;
+  cursor: pointer;
 }
 
 .btn_right {
   margin-right: 10px;
   opacity: 0.6;
+  cursor: pointer;
 }
 
 /* ordergroup */
