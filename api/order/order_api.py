@@ -45,7 +45,7 @@ def pay_data():
         query_history = ("SELECT * FROM orders WHERE member_id=%s;")
         cursor.execute(query_history, (member_id,))
         find_history = cursor.fetchone()
-        print(find_history)
+        print("find_history",find_history)
         if find_history != None:
             delete_history = ("DELETE FROM orders WHERE member_id=%s;")
             cursor.execute(delete_history, (member_id,))
@@ -59,15 +59,18 @@ def pay_data():
         reservation_date = data["order"]["date"]
         reservation_time = data["order"]["time"]
         price = data["order"]["price"]
-        print(order_email, order_id, order_name, attraction_id,
+        print("data",order_email, order_id, order_name, attraction_id,
               reservation_date, reservation_time, price)
         query = ("INSERT INTO orders(order_id,member_id,order_name,"
                  "order_email,order_phone,attraction_id,reservation_date,"
                  "reservation_time,price,order_status) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,1);")
+        print("query")
         cursor.execute(query, (order_id, member_id, order_name,
                                order_email, order_phone, attraction_id, reservation_date,
                                reservation_time, price))
-        # connection_object.commit()
+        print("insert")
+        connection_object.commit()
+        print(data)
         post_data = {  # 建立傳送至第三方支付資料
             "prime": data["prime"],
             "partner_key": partner_key,
@@ -180,21 +183,21 @@ def get_pay_data():
 
 
 # 更改get
-        query = ("SELECT attraction.id, attraction.name, attraction.address, attraction.images"
-                 "orders.date_format(reservation_date,'%Y-%m-%d'),order.reservation_time,order.price"
-                 "FROM attraction INNER JOIN order ON orders.attraction_id=attraction.id WHERE member_id=%s"
-                 " ORDER BY order_time DESC;")
+        # query = ("SELECT attraction.id, attraction.name, attraction.address, attraction.images"
+        #          "orders.date_format(reservation_date,'%Y-%m-%d'),order.reservation_time,order.price"
+        #          "FROM attraction INNER JOIN order ON orders.attraction_id=attraction.id WHERE member_id=%s"
+        #          " ORDER BY order_time DESC;")
 
-        id = decode["id"]
-        cursor.execute(query, (id,))
-        record = cursor.fetchone()
-        image = record["images"].split(",")[0]
-        result["data"]["attraction"]["id"] = record["id"]
-        result["data"]["attraction"]["name"] = record["name"]
-        result["data"]["attraction"]["address"] = record["address"]
-        result["data"]["attraction"]["image"] = image
-        result["data"]["date"] = record["date_format(reservation_date,'%Y-%m-%d')"]
-        result["data"]["time"] = record["reservation__time"]
-        result["data"]["price"] = record["price"]
-        print(result)
-        return jsonify(result)
+        # id = decode["id"]
+        # cursor.execute(query, (id,))
+        # record = cursor.fetchone()
+        # image = record["images"].split(",")[0]
+        # result["data"]["attraction"]["id"] = record["id"]
+        # result["data"]["attraction"]["name"] = record["name"]
+        # result["data"]["attraction"]["address"] = record["address"]
+        # result["data"]["attraction"]["image"] = image
+        # result["data"]["date"] = record["date_format(reservation_date,'%Y-%m-%d')"]
+        # result["data"]["time"] = record["reservation__time"]
+        # result["data"]["price"] = record["price"]
+        # print(result)
+        # return jsonify(result)

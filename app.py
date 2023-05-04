@@ -2,7 +2,7 @@ from flask import *
 from api.attraction.attraction_api import attraction
 from api.category.category_api import category
 from api.user.auth_api import auth
-from api.booking.booking__api import booking
+from api.booking.booking_api import booking
 from api.order.order_api import orders
 
 
