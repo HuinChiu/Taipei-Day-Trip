@@ -1,73 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static',filename='CSS/booking.css')}}">
-    <link rel="stylesheet" href="{{url_for('static',filename='CSS/thank.css')}}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='CSS/booking.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='CSS/thank.css')}}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap"
+      rel="stylesheet"
+    />
     <title>台北一日遊</title>
-</head>
-<div class="sign">
+  </head>
+  <div class="sign">
     <div class="signbox">
-        <div class="decorate"></div>
-        <div class="sign_item sign_title">登入會員帳號
-            <img class="close_icon" src="{{url_for('static',filename='images/icon_close.png')}}" alt="close">
-        </div>
-        <input class="sign_item email" type="email" name="eamil" id="signin_email" placeholder="輸入電子信箱">
-        <input class="sign_item name" type="password" name="password" id="signin_password" placeholder="輸入密碼">
-        <button class="sign_item sign_btn sign_btn1">登入帳戶</button>
-        <div class=" sign_item notice-1">還沒有帳戶？點此註冊</div>
-        <div class="message"></div>
+      <div class="decorate"></div>
+      <div class="sign_item sign_title">
+        登入會員帳號
+        <img
+          class="close_icon"
+          src="{{url_for('static',filename='images/icon_close.png')}}"
+          alt="close"
+        />
+      </div>
+      <input
+        class="sign_item email"
+        type="email"
+        name="eamil"
+        id="signin_email"
+        placeholder="輸入電子信箱"
+        value="test@test"
+      />
+      <input
+        class="sign_item name"
+        type="password"
+        name="password"
+        id="signin_password"
+        placeholder="輸入密碼"
+        value="test"
+      />
+      <button class="sign_item sign_btn sign_btn1">登入帳戶</button>
+      <div class="sign_item notice-1">還沒有帳戶？點此註冊</div>
+      <div class="message"></div>
     </div>
     <div class="signup_box">
-        <div class="decorate"></div>
-        <div class="sign_item sign_title">註冊會員帳號</div>
-        <img class="close_icon" src="{{url_for('static',filename='images/icon_close.png')}}" alt="close">
-        <input class="sign_item name" type="text" name="name" id="signup_name" placeholder="輸入姓名">
-        <input class="sign_item email" type="email" name="eamil" id="signup_email" placeholder="輸入電子信箱">
-        <input class="sign_item password" type="password" name="password" id="signup_password" placeholder="輸入密碼">
-        <button class="sign_item sign_btn sign_btn2">註冊帳戶</button>
-        <div class=" sign_item notice-2">已經有帳戶了？點此登入</div>
-        <div class="message"></div>
+      <div class="decorate"></div>
+      <div class="sign_item sign_title">註冊會員帳號</div>
+      <img
+        class="close_icon"
+        src="{{url_for('static',filename='images/icon_close.png')}}"
+        alt="close"
+      />
+      <input
+        class="sign_item name"
+        type="text"
+        name="name"
+        id="signup_name"
+        placeholder="輸入姓名"
+      />
+      <input
+        class="sign_item email"
+        type="email"
+        name="eamil"
+        id="signup_email"
+        placeholder="輸入電子信箱"
+      />
+      <input
+        class="sign_item password"
+        type="password"
+        name="password"
+        id="signup_password"
+        placeholder="輸入密碼"
+      />
+      <button class="sign_item sign_btn sign_btn2">註冊帳戶</button>
+      <div class="sign_item notice-2">已經有帳戶了？點此登入</div>
+      <div class="message"></div>
     </div>
-</div>
+  </div>
 
-
-
-<body>
+  <body>
     <div class="fix">
-        <nav class="navigation">
-
-            <div class="title">
-                <a href="/">台北一日遊</a>
-            </div>
-            <div class="menu">
-                <div class="item booking_btn">預定行程</div>
-                <div class="item signin">登入/註冊</div>
-                <div class="item signout">
-                    <a href="/">登出</a>
-                </div>
-
-            </div>
-        </nav>
+      <nav class="navigation">
+        <div class="title">
+          <a href="/">台北一日遊</a>
+        </div>
+        <div class="menu">
+          <div class="item booking_btn">預定行程</div>
+          <div class="item signin">登入/註冊</div>
+          <div class="item signout">
+            <a href="/">登出</a>
+          </div>
+        </div>
+      </nav>
     </div>
 
     <main>
-        <span class="thanks_order">謝謝您，訂單<span class="order_number"></span>已完成付款</span>
+      <span class="thanks_order"
+        >謝謝您，訂單<span class="order_number"></span>已完成付款</span
+      >
     </main>
 
-
     <footer>
-        <div class="footer-item">COPYRIGHT © 2021 台北一日遊</div>
+      <div class="footer-item">COPYRIGHT © 2021 台北一日遊</div>
     </footer>
-    <script type="text/javascript" src="{{url_for('static', filename='JS/signin.js')}}"></script>
-    <script type="text/javascript" src="{{url_for('static', filename='JS/thank.js')}}"></script>
-
-</body>
-
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='JS/signin.js')}}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='JS/thank.js')}}"
+    ></script>
+  </body>
 </html>
