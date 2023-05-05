@@ -5,9 +5,8 @@ Taipei-Day-Trip is a web application that allows users to browse and book trips 
 With this application, users can easily find detailed information about attractions, including descriptions, photos, addresses, and transportation options. 
 Users can also search for attractions by category and order trips on specific dates.
 
-To get started, follow the installation instructions in the README and start exploring the best of Taipei!
-
-##Demo
+## Demo
+![Demo](http://g.recordit.co/jIFbG7xyAH.gif)
 
 ## Features
 ### Home Page
@@ -15,12 +14,13 @@ The home page of the Taipei-Day-Trip project allows you to view all the attracti
 You can also search for specific categories by using the search box. 
 As you scroll down, more attractions will be loaded dynamically to the page.
 
-### attraction Page
+### Attraction Page
 On the attraction page, you can see the detailed information of a specific attraction, including its name, category, description, address, transportation, MRT station, and images. 
 Additionally, you can order a trip to this attraction.
 You can select the date you want to visit and see the price of the trip. When you click the "Order" button, you will be redirected to the order page.
 ### Order page
 On the Order page, you can review your order details and provide your credit card information to complete the purchase. For testing purposes, you can use the following credit card information:
+
 ```
 card number: 4242-4242-4242-4242
 expirde date: 01/25
@@ -29,8 +29,9 @@ CVS: 123
 After double-checking your order details and entering your credit card information, click "Submit" to proceed with the purchase. You will then be redirected to the Thank You page.
 
 ### Thanks page
-It will show you are order this trip.
+This page displays that your order was successful and returns the order information.
 
+The above webpage layout was created based on UI/UX designer's Figma design.
 ## Technologies Used
 * [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML): Used for creating and structuring content for the web.
 * [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS): Used for describing the presentation of Web pages, including colors, layout, and fonts.
