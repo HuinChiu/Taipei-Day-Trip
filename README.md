@@ -1,4 +1,4 @@
-# Taipei-Day-Trip
+# [Taipei-Day-Trip](http://3.113.79.51:3000/)
 
 ## Description
 Taipei-Day-Trip is a web application that allows users to browse and book trips to popular attractions in Taipei City.
@@ -43,12 +43,6 @@ Python Flask was used to build the RESTful API that responds to requests from th
 * [Git](https://git-scm.com/): Used for version control and collaboration.
 * [Github](https://github.com/): Used for version control and collaboration, allowing multiple developers to work on the same codebase simultaneously.
 * [VS Code](https://code.visualstudio.com/): Used as the primary code editor.
-
-## Installation
-This project does not require installation. 
-Simply navigate to the project URL and log in with your credentials to access the application. 
-Taipei-Day-Trip you can use preset account login or you can register new account.
-[Taipei-Day-Trip](http://3.113.79.51:3000/)
 
 ### Test account
 ```
