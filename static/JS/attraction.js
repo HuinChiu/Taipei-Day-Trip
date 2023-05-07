@@ -38,28 +38,6 @@ fetch(url)
         imgBox.style.backgroundImage = `url(${imgList[i]})`;
       });
     }
-    // let loadedImages = 0;
-
-    // for (let i = 0; i < imgList.length; i++) {
-    //   let radio = document.querySelector(".radio");
-    //   let imgRadio = document.createElement("input");
-    //   imgRadio.className = "img_radio";
-    //   imgRadio.type = "radio";
-    //   imgRadio.name = "radio";
-    //   imgRadio.className = "img_radio";
-    //   radio.appendChild(imgRadio);
-    //   let image = new Image();
-    //   image.onload = function () {
-    //     loadedImages++;
-    //     if (loadedImages == imgList.length) {
-    //       // Code to execute when all images have finished loading
-    //       console.log("All images have finished loading!");
-    //       let loading = document.querySelector(".loading");
-    //       loading.style.display = "none";
-    //     }
-    //   };
-    //   image.src = imgList[i];
-    // }
     checkcookie();
 
     //第一張圖radio checked
@@ -112,7 +90,6 @@ async function checkcookie() {
       return resp.json();
     })
     .then(function (data) {
-      console.log(data["data"]);
       if (data["data"] !== null) {
         document.querySelector(".sign").style.display = "none";
         document.querySelector(".signin").style.display = "none";
@@ -137,7 +114,6 @@ async function sentOrder() {
         const memberID = data.data.id;
         const url_split = url.split("/");
         const id = url_split.slice(-1)[0]; //取得景點id
-        console.log(id);
         let entry = {};
         const date = document.querySelector(".input_date").value;
         const time = document.querySelector("input[name='time']:checked"); //value
@@ -147,13 +123,11 @@ async function sentOrder() {
         } else if (date == "") {
           alert("請點選日期");
         }
-        console.log(id, date, time.value, feed);
         entry.member_id = memberID;
         entry.attractionID = Number(id);
         entry.date = date;
         entry.time = time.value;
         entry.price = Number(feed);
-        console.log(entry);
         //將訂單資料傳到booking_api
         fetch("/api/booking", {
           method: "POST",
@@ -166,7 +140,6 @@ async function sentOrder() {
             return resp.json();
           })
           .then(function (data) {
-            console.log(data);
             if (data["ok"] == true) {
               window.location.href = "/booking";
             }

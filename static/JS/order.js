@@ -92,8 +92,6 @@ async function onSubmit(event) {
     } else {
       const prime = result.card.prime;
       entry.prime = prime;
-      console.log("thisis" + JSON.stringify(entry.prime));
-      console.log("this is " + entry);
       const name = document.querySelector(".input_name").value;
       const email = document.querySelector(".input_email").value;
       const phone = document.querySelector(".input_phone").value;
@@ -106,13 +104,11 @@ async function onSubmit(event) {
       entry.order.price = price;
       entry.order.date = date;
       entry.order.time = time;
-      console.log(entry);
       fetch("/api/booking")
         .then(function (resp) {
           return resp.json();
         })
         .then(function (data) {
-          console.log("order js", data);
           const attraction = data.data.attraction;
           entry.order.trip.attraction = attraction;
           fetch("/api/orders", {
@@ -126,10 +122,7 @@ async function onSubmit(event) {
               return resp.json();
             })
             .then(function (data) {
-              console.log(data);
               if (data.data.payment.status == 0) {
-                console.log(data);
-                console.log(data.data.number);
                 loading.style.display = "flex";
                 window.location.href = `/thankyou?number=${data.data.number}`;
               } else {

@@ -27,7 +27,7 @@ def signup():
         email = data["email"]
         password = data["password"]
         if name == "" or email == "" or password == "":
-            return jsonify({"erro": True, "message": "註冊失敗，資料未輸入完全，請重新輸入"})
+            return jsonify({"error": True, "message": "註冊失敗，資料未輸入完全，請重新輸入"})
         connection_object = connection_pool.get_connection()
         cursor = connection_object.cursor(dictionary=True)
         query = ("SELECT email FROM members WHERE email=%s")
@@ -41,13 +41,12 @@ def signup():
             connection_object.commit()
             return jsonify({"ok": True}), 200
         else:
-            return jsonify({"erro": True, "message": "註冊失敗，email已被註冊，請重新輸入"}), 400
+            return jsonify({"error": True, "message": "註冊失敗，email已被註冊，請重新輸入"}), 400
     except:
         return jsonify({"error": "true", "message": "伺服器錯誤"}), 500
     finally:
         cursor.close()
         connection_object.close()
-        print("auth POST close")
 
 
 @auth.route("/api/user/auth", methods=["PUT"])
@@ -57,7 +56,7 @@ def signin():
         email = data["email"]
         password = data["password"]
         if email == "" or password == "":
-            return jsonify({"erro": True, "message": "登入失敗，資料未輸入完全，請重新輸入"})
+            return jsonify({"error": True, "message": "登入失敗，資料未輸入完全，請重新輸入"})
         member = (email, password)
         connection_object = connection_pool.get_connection()
         cursor = connection_object.cursor(dictionary=True)
@@ -65,7 +64,7 @@ def signin():
         cursor.execute(query, member)
         record = cursor.fetchone()
         if record == None:
-            return jsonify({"erro": True, "message": "登入失敗，帳號或密碼錯誤"})
+            return jsonify({"error": True, "message": "登入失敗，帳號或密碼錯誤"})
         else:
             id = record["id"]
             name = record["name"]
@@ -87,7 +86,6 @@ def signin():
     finally:
         cursor.close()
         connection_object.close()
-        print("auth PUT close")
 
 
 @auth.route("/api/user/auth", methods=["GET"])
@@ -118,7 +116,6 @@ def getmemberdata():
     finally:
         cursor.close()
         connection_object.close()
-        print("auth GET close")
 
 
 @ auth.route("/api/user/auth", methods=["DELETE"])

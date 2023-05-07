@@ -36,7 +36,7 @@ def get_booking_data():
         token = cookie.get("token")
         decode = jwt.decode(token, secretkey, algorithms=["HS256"])
         if decode == None:
-            return jsonify({"erro": True, "message": "未登入系統，拒絕存取"}, 403)
+            return jsonify({"error": True, "message": "未登入系統，拒絕存取"}, 403)
         else:
 
             id = decode["id"]
@@ -58,11 +58,10 @@ def get_booking_data():
             return jsonify(result)
 
     except:
-        return jsonify({"erro": True})
+        return jsonify({"error": True})
     finally:
         cursor.close()
         connection_object.close()
-        print("booking get close")
 
 
 @ booking.route("/api/booking", methods=["POST"])
@@ -80,9 +79,9 @@ def create_booking_data():
         token = cookie.get("token")
         decode = jwt.decode(token, secretkey, algorithms=["HS256"])
         if decode == None:
-            return jsonify({"erro": True, "message": "未登入系統，拒絕存取"}, 403)
+            return jsonify({"error": True, "message": "未登入系統，拒絕存取"}, 403)
         elif member_id == "" or attraction_id == "" or date == "" or time == "":
-            return jsonify({"erro": True, "message": "輸入資料有誤，請重新點選"}, 400)
+            return jsonify({"error": True, "message": "輸入資料有誤，請重新點選"}, 400)
         else:
             query = ("SELECT * FROM booking WHERE member_id=%s;")
             cursor.execute(query, (member_id,))
@@ -125,12 +124,12 @@ def delete_booking_data():
         token = cookie.get("token")
         decode = jwt.decode(token, secretkey, algorithms=["HS256"])
         if decode == None:
-            return jsonify({"erro": True, "message": "未登入系統，拒絕存取"}, 403)
+            return jsonify({"error": True, "message": "未登入系統，拒絕存取"}, 403)
         else:
             data = request.get_json()
             member_id = data["id"]
             if decode["id"] != member_id:
-                return jsonify({"erro": True, "message": "登入者不同，拒絕存取"}, 403)
+                return jsonify({"error": True, "message": "登入者不同，拒絕存取"}, 403)
             else:
                 attraction_id = data["attraction_id"]
                 date = data["date"]

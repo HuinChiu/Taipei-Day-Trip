@@ -33,7 +33,7 @@ def find_categories():
         result["data"] = data_str
         return jsonify(result), 200
     except:
-        return jsonify({"erro": True, "message": "找不到任何訊息，伺服器錯誤"}), 500
+        return jsonify({"error": True, "message": "找不到任何訊息，伺服器錯誤"}), 500
     finally:
         cursor.close()
         connection_object.close()

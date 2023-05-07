@@ -28,11 +28,10 @@ def pay_data():
     token = cookie.get("token")
     decode = jwt.decode(token, secretkey, algorithms=["HS256"])
     if decode == None:
-        return jsonify({"erro": True, "message": "未登入系統，拒絕存取"}, 403)
+        return jsonify({"error": True, "message": "未登入系統，拒絕存取"}, 403)
     url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
     try:
         data = request.get_json()
-        print(data)
         if data["prime"] == "":
             return jsonify({"error": True, "message": "訂單建立失敗，付款失敗，請重新輸入"})
         connection_object = connection_pool.get_connection()
@@ -41,17 +40,13 @@ def pay_data():
         order_id = datetime.datetime.now().strftime('%Y%m%d%H%M%S')  # 建立訂單編號
         # 新增資料至後端
         member_id = decode["id"]
-        print(member_id)
         query_history = ("SELECT * FROM orders WHERE member_id=%s;")
         cursor.execute(query_history, (member_id,))
         find_history = cursor.fetchone()
-        print("find_history",find_history)
         if find_history != None:
             delete_history = ("DELETE FROM orders WHERE member_id=%s;")
             cursor.execute(delete_history, (member_id,))
             connection_object.commit()
-            print("delete orders")
-        print("after delete")
         order_email = data["contact"]["email"]
         order_name = data["contact"]["name"]
         order_phone = data["contact"]["phone"]
@@ -59,18 +54,13 @@ def pay_data():
         reservation_date = data["order"]["date"]
         reservation_time = data["order"]["time"]
         price = data["order"]["price"]
-        print("data",order_email, order_id, order_name, attraction_id,
-              reservation_date, reservation_time, price)
         query = ("INSERT INTO orders(order_id,member_id,order_name,"
                  "order_email,order_phone,attraction_id,reservation_date,"
                  "reservation_time,price,order_status) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,1);")
-        print("query")
         cursor.execute(query, (order_id, member_id, order_name,
                                order_email, order_phone, attraction_id, reservation_date,
                                reservation_time, price))
-        print("insert")
         connection_object.commit()
-        print(data)
         post_data = {  # 建立傳送至第三方支付資料
             "prime": data["prime"],
             "partner_key": partner_key,
@@ -91,18 +81,15 @@ def pay_data():
 
         response = requests.post(url, headers=headers, json=post_data)
         record = response.json()
-        print(record)
         if record["status"] == 0:
             delete_booking = ("DELETE FROM booking WHERE member_id=%s")
             cursor.execute(delete_booking, (member_id,))
             connection_object.commit()
-            print("delete booking!")
             final_status = 0
             change_status = (
                 "update orders set order_status = %s where order_id =%s;")
             cursor.execute(change_status, (final_status, order_id))
             connection_object.commit()
-            print("update order_id!")
             result = {"data": {"number": "", "payment": {
                 "status": "", "message": "付款成功"}}}
             result["data"]["number"] = order_id
@@ -145,11 +132,9 @@ def get_pay_data():
         token = cookie.get("token")
         decode = jwt.decode(token, secretkey, algorithms=["HS256"])
         if decode == None:
-            return jsonify({"erro": True, "message": "未登入系統，拒絕存取"}, 403)
-        print("我在這！")
+            return jsonify({"error": True, "message": "未登入系統，拒絕存取"}, 403)
         connection_object = connection_pool.get_connection()
         cursor = connection_object.cursor(dictionary=True)
-        print("cursor@")
         id = decode["id"]
         query = ("SELECT orders.order_id,orders.price,"
                  "attraction.id, attraction.name, attraction.address, attraction.images,"
@@ -159,7 +144,6 @@ def get_pay_data():
                  " ORDER BY order_time DESC;")
         cursor.execute(query, (id,))
         record2 = cursor.fetchone()
-        print(record2)
         result["data"]["number"] = record2["order_id"]
         result["data"]["price"] = record2["price"]
         result["data"]["trip"]["attraction"]["id"] = record2["id"]
@@ -172,32 +156,9 @@ def get_pay_data():
         result["data"]["contact"]["email"] = record2["order_email"]
         result["data"]["contact"]["phone"] = record2["order_phone"]
         result["data"]["status"] = record2["order_status"]
-        print(result)
         return jsonify(result)
     except:
         return jsonify({"error": True, "message": "伺服器錯誤"}), 500
-    # finally:
-    #     cursor.close()
-    #     connection_object.close()
-    #     print("orders close")
-
-
-# 更改get
-        # query = ("SELECT attraction.id, attraction.name, attraction.address, attraction.images"
-        #          "orders.date_format(reservation_date,'%Y-%m-%d'),order.reservation_time,order.price"
-        #          "FROM attraction INNER JOIN order ON orders.attraction_id=attraction.id WHERE member_id=%s"
-        #          " ORDER BY order_time DESC;")
-
-        # id = decode["id"]
-        # cursor.execute(query, (id,))
-        # record = cursor.fetchone()
-        # image = record["images"].split(",")[0]
-        # result["data"]["attraction"]["id"] = record["id"]
-        # result["data"]["attraction"]["name"] = record["name"]
-        # result["data"]["attraction"]["address"] = record["address"]
-        # result["data"]["attraction"]["image"] = image
-        # result["data"]["date"] = record["date_format(reservation_date,'%Y-%m-%d')"]
-        # result["data"]["time"] = record["reservation__time"]
-        # result["data"]["price"] = record["price"]
-        # print(result)
-        # return jsonify(result)
+    finally:
+        cursor.close()
+        connection_object.close()

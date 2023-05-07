@@ -82,7 +82,6 @@ def attraction_id(attractionId):
         cursor.execute(query, (attractionId,))
         record = cursor.fetchone()
         result["data"] = record
-        print("attractionID get close")
         if record == None:
             return jsonify({"erro": True, "message": "找不到任何訊息，景點編號輸入錯誤，請重新輸入景點編號"}), 400
         else:
@@ -94,4 +93,3 @@ def attraction_id(attractionId):
     finally:
         cursor.close()
         connection_object.close()
-        print("attractionIDget close")

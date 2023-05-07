@@ -28,7 +28,6 @@ async function callback() {
     } else {
       url = `/api/attractions?page=${nextPage}&keyword=${header_search}`;
     }
-    console.log(url);
     const response = await fetch(url);
     const result = await response.json();
     if (result.erro == true) {
@@ -189,7 +188,7 @@ async function signin() {
         }
       });
     checkcookie();
-  } catch (erro) {
-    console.log("erro:" + erro);
+  } catch (error) {
+    const errorMsg = error;
   }
 }
